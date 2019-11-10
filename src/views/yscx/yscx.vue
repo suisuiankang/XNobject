@@ -30,7 +30,7 @@
               :sm="{span:8,offset:0}"
             >
               <el-form-item
-                label="发货通知单号:"
+                label="交接单号:"
                 prop="supplyplancode"
               >
                 <el-input
@@ -139,14 +139,14 @@
               <el-form-item style="float: right;">
                 <el-button
                   type="primary"
-                  @click="qureySform()"
+                  @click="qureySform(ycform)"
                 >
                   查询
                 </el-button>
                 <el-button
                   type="primary"
                   style="background-color: #fff;color: #606266;border: 1px solid #dcdfe6;"
-                  @click="clearForm(),resetForm('ycform')"
+                  @click="resetForm('ycform')"
                 >
                   清除条件
                 </el-button>
@@ -155,170 +155,6 @@
           </el-row>
         </el-form>
       </div>
-      <el-card
-        v-if="iscord"
-        ref="ecid"
-        class="box-card"
-      >
-        <el-form
-          ref="cform"
-          class="cform"
-          label-width="100px"
-          size="mini"
-          :model="cform"
-        >
-          <el-row>
-            <el-col :span="4">
-              <el-form-item
-                label="发货通知单号:"
-                prop="supplyplancode"
-              >
-                <el-input v-model="cform.supplyplancode" />
-              </el-form-item>
-            </el-col>
-            <el-col
-              :span="4"
-              :offset="8"
-            >
-              <el-form-item
-                label="采购订单:"
-                prop="ebeln"
-              >
-                <el-input v-model="cform.ebeln" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4">
-              <el-form-item
-                label="发货方(签字):"
-                prop="supplyplancode"
-              >
-                <el-input v-model="cform.supplyplancode" />
-              </el-form-item>
-            </el-col>
-            <el-col
-              :span="4"
-              :offset="8"
-            >
-              <el-form-item
-                label="发货方(时间):"
-                prop="ks_pstngDate"
-              >
-                <el-date-picker
-                  v-model="cform.ks_pstngDate"
-                  type="date"
-                  placeholder="选择日期"
-                  format="yyyy 年 MM 月 dd 日"
-                  value-format="yyyy-MM-dd"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4">
-              <el-form-item
-                label="收货方(签字):"
-                prop="supplyplancode"
-              >
-                <el-input v-model="cform.supplyplancode" />
-              </el-form-item>
-            </el-col>
-            <el-col
-              :span="4"
-              :offset="8"
-            >
-              <el-form-item
-                label="收货方(时间):"
-                prop="ks_pstngDate"
-              >
-                <el-date-picker
-                  v-model="cform.ks_pstngDate"
-                  type="date"
-                  placeholder="选择日期"
-                  format="yyyy 年 MM 月 dd 日"
-                  value-format="yyyy-MM-dd"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4">
-              <el-form-item
-                label="实际交货地点:"
-                prop="supplyplancode"
-              >
-                <el-input v-model="cform.supplyplancode" />
-              </el-form-item>
-            </el-col>
-            <el-col
-              :span="4"
-              :offset="8"
-            >
-              <el-form-item
-                label="实际交货日期:"
-                prop="ks_pstngDate"
-              >
-                <el-date-picker
-                  v-model="cform.ks_pstngDate"
-                  type="date"
-                  placeholder="选择日期"
-                  format="yyyy 年 MM 月 dd 日"
-                  value-format="yyyy-MM-dd"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4">
-              <el-form-item
-                label="供应商名称:"
-                prop="supplyplancode"
-              >
-                <el-input v-model="cform.supplyplancode" />
-              </el-form-item>
-            </el-col>
-            <el-col
-              :span="4"
-              :offset="8"
-            >
-              <el-form-item
-                label="移动类型:"
-                prop="ebeln"
-              >
-                <el-input v-model="cform.ebeln" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4">
-              <el-form-item
-                label="确定交货日期:"
-                prop="ks_pstngDate"
-              >
-                <el-date-picker
-                  v-model="cform.ks_pstngDate"
-                  type="date"
-                  placeholder="选择日期"
-                  format="yyyy 年 MM 月 dd 日"
-                  value-format="yyyy-MM-dd"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col
-              :span="4"
-              :offset="8"
-            >
-              <el-form-item
-                label="备注:"
-                prop="ebeln"
-              >
-                <el-input v-model="cform.ebeln" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </el-card>
       <div class="yscx-bt">
         <div class="yscx-jg">
           <img
@@ -362,7 +198,7 @@
                 header-align="center"
                 :show-overflow-tooltip="true"
                 prop="supplyplancode"
-                label="发货通知单号"
+                label="交接单号"
                 width="180"
                 align="center"
               />
@@ -398,6 +234,7 @@
               <el-table-column
                 header-align="center"
                 align="center"
+                :show-overflow-tooltip="true"
                 prop="werksdescription"
                 label="工厂名称"
                 width="80"
@@ -411,6 +248,7 @@
               />
               <el-table-column
                 header-align="center"
+                :show-overflow-tooltip="true"
                 align="center"
                 prop="lgortdescription"
                 label="库存描述"
@@ -418,6 +256,7 @@
               />
               <el-table-column
                 header-align="center"
+                :show-overflow-tooltip="true"
                 align="center"
                 prop="pstngDate"
                 label="过账日期"
@@ -425,6 +264,7 @@
               />
               <el-table-column
                 header-align="center"
+                :show-overflow-tooltip="true"
                 prop="blart"
                 label="凭证日期"
                 width="80"
@@ -530,6 +370,13 @@
               />
               <el-table-column
                 header-align="center"
+                :show-overflow-tooltip="true"
+                prop="zjdhq"
+                label="预计发货日期"
+                width="120"
+              />
+              <el-table-column
+                header-align="center"
                 align="center"
                 prop="eindt"
                 label="确定交货日期"
@@ -538,8 +385,8 @@
               <el-table-column
                 header-align="center"
                 align="center"
-                prop="zhtzs"
-                label="凭证日期"
+                prop="zthsl"
+                label="合同总数"
                 width="80"
               />
               <el-table-column
@@ -572,6 +419,7 @@
               />
               <el-table-column
                 header-align="center"
+                :show-overflow-tooltip="true"
                 align="center"
                 prop="posid"
                 label="WBS元素"
@@ -594,6 +442,7 @@
               />
               <el-table-column
                 header-align="center"
+                :show-overflow-tooltip="true"
                 prop="matnr"
                 label="物料编号"
                 width="80"
@@ -602,6 +451,7 @@
               <el-table-column
                 header-align="center"
                 align="center"
+                :show-overflow-tooltip="true"
                 prop="maktx"
                 label="物料描述"
                 width="80"
@@ -615,6 +465,7 @@
               />
               <el-table-column
                 align="center"
+                :show-overflow-tooltip="true"
                 header-align="center"
                 prop="bukrsdescription"
                 label="公司名称"
@@ -691,19 +542,6 @@
 export default {
   data () {
     return {
-      rules: {
-        cwh: [
-          { required: true, message: '请选择目标储位号', trigger: 'change' }
-        ],
-        shsl: [
-          {
-            type: 'string',
-            required: true,
-            message: '请输入上货数量',
-            trigger: 'blur'
-          }
-        ]
-      },
       ycform: {
         supplyplancode: '',
         ebeln: '',
@@ -714,209 +552,54 @@ export default {
         ks_pstngDate: '',
         js_pstngDate: ''
       },
-      cform: {
-        supplyplancode: '',
-        ebeln: '',
-        werks: '',
-        mblnr: '',
-        gjahr: '',
-        lgort: '',
-        ks_pstngDate: '',
-        js_pstngDate: ''
-      },
       tabsData: [
-        // {
-        //   ext4: '未处理',
-        //   supplyplancode: '0',
-        //   ebeln: '0',
-        //   ebelp: '0',
-        //   zsjdhsl: '0',
-        //   werks: '0',
-        //   werksdescription: '0',
-        //   lgort: '0',
-        //   lgortdescription: '0',
-        //   pstngDate: '',
-        //   blart: '',
-        //   bwart: '',
-        //   zwzgygsqz: '',
-        //   zwzgygssj: '',
-        //   zqmdwjsrqz: '',
-        //   zqmdwjsrsj: '',
-        //   zgysjfrqz: '',
-        //   zgysjfrsj: '',
-        //   zjldwrqz: '',
-        //   zjldwrsj: '',
-        //   zsgdwrqz: '',
-        //   zsgdwrsj: '',
-        //   carrlinkman: '',
-        //   carrlinkmantelep: '',
-        //   zjdhq: '',
-        //   zyjfhq: '',
-        //   eindt: '',
-        //   zhtzs: '',
-        //   zthsl: '',
-        //   zbczcs: '',
-        //   zbchhsl: '',
-        //   remark: '',
-        //   posid: '',
-        //   post1Wbs: '',
-        //   zxmdw: '',
-        //   matnr: '',
-        //   maktx: '',
-        //   bukrs: '',
-        //   bukrsdescription: '',
-        //   meins: '',
-        //   username: '',
-        //   zsjjhq: '',
-        //   msgcode: '',
-        //   msgdesp: '',
-        //   mblnr: '',
-        //   gjahr: ''
-        // },
-        // {
-        //   ext4: '未处理',
-        //   supplyplancode: '0',
-        //   ebeln: '0',
-        //   ebelp: '0',
-        //   zsjdhsl: '0',
-        //   werks: '0',
-        //   werksdescription: '0',
-        //   lgort: '0',
-        //   lgortdescription: '0',
-        //   pstngDate: '',
-        //   blart: '',
-        //   bwart: '',
-        //   zwzgygsqz: '',
-        //   zwzgygssj: '',
-        //   zqmdwjsrqz: '',
-        //   zqmdwjsrsj: '',
-        //   zgysjfrqz: '',
-        //   zgysjfrsj: '',
-        //   zjldwrqz: '',
-        //   zjldwrsj: '',
-        //   zsgdwrqz: '',
-        //   zsgdwrsj: '',
-        //   carrlinkman: '',
-        //   carrlinkmantelep: '',
-        //   zjdhq: '',
-        //   zyjfhq: '',
-        //   eindt: '',
-        //   zhtzs: '',
-        //   zthsl: '',
-        //   zbczcs: '',
-        //   zbchhsl: '',
-        //   remark: '',
-        //   posid: '',
-        //   post1Wbs: '',
-        //   zxmdw: '',
-        //   matnr: '',
-        //   maktx: '',
-        //   bukrs: '',
-        //   bukrsdescription: '',
-        //   meins: '',
-        //   username: '',
-        //   zsjjhq: '',
-        //   msgcode: '',
-        //   msgdesp: '',
-        //   mblnr: '',
-        //   gjahr: ''
-        // },
-        // {
-        //   ext4: '未处理',
-        //   supplyplancode: '0',
-        //   ebeln: '0',
-        //   ebelp: '0',
-        //   zsjdhsl: '0',
-        //   werks: '0',
-        //   werksdescription: '0',
-        //   lgort: '0',
-        //   lgortdescription: '0',
-        //   pstngDate: '',
-        //   blart: '',
-        //   bwart: '',
-        //   zwzgygsqz: '',
-        //   zwzgygssj: '',
-        //   zqmdwjsrqz: '',
-        //   zqmdwjsrsj: '',
-        //   zgysjfrqz: '',
-        //   zgysjfrsj: '',
-        //   zjldwrqz: '',
-        //   zjldwrsj: '',
-        //   zsgdwrqz: '',
-        //   zsgdwrsj: '',
-        //   carrlinkman: '',
-        //   carrlinkmantelep: '',
-        //   zjdhq: '',
-        //   zyjfhq: '',
-        //   eindt: '',
-        //   zhtzs: '',
-        //   zthsl: '',
-        //   zbczcs: '',
-        //   zbchhsl: '',
-        //   remark: '',
-        //   posid: '',
-        //   post1Wbs: '',
-        //   zxmdw: '',
-        //   matnr: '',
-        //   maktx: '',
-        //   bukrs: '',
-        //   bukrsdescription: '',
-        //   meins: '',
-        //   username: '',
-        //   zsjjhq: '',
-        //   msgcode: '',
-        //   msgdesp: '',
-        //   mblnr: '',
-        //   gjahr: ''
-        // },
-        // {
-        //   ext4: '未处理',
-        //   supplyplancode: '0',
-        //   ebeln: '0',
-        //   ebelp: '0',
-        //   zsjdhsl: '0',
-        //   werks: '0',
-        //   werksdescription: '0',
-        //   lgort: '0',
-        //   lgortdescription: '0',
-        //   pstngDate: '',
-        //   blart: '',
-        //   bwart: '',
-        //   zwzgygsqz: '',
-        //   zwzgygssj: '',
-        //   zqmdwjsrqz: '',
-        //   zqmdwjsrsj: '',
-        //   zgysjfrqz: '',
-        //   zgysjfrsj: '',
-        //   zjldwrqz: '',
-        //   zjldwrsj: '',
-        //   zsgdwrqz: '',
-        //   zsgdwrsj: '',
-        //   carrlinkman: '',
-        //   carrlinkmantelep: '',
-        //   zjdhq: '',
-        //   zyjfhq: '',
-        //   eindt: '',
-        //   zhtzs: '',
-        //   zthsl: '',
-        //   zbczcs: '',
-        //   zbchhsl: '',
-        //   remark: '',
-        //   posid: '',
-        //   post1Wbs: '',
-        //   zxmdw: '',
-        //   matnr: '',
-        //   maktx: '',
-        //   bukrs: '',
-        //   bukrsdescription: '',
-        //   meins: '',
-        //   username: '',
-        //   zsjjhq: '',
-        //   msgcode: '',
-        //   msgdesp: '',
-        //   mblnr: '',
-        //   gjahr: ''
-        // }
+      ],
+      tabsrData: [
+        {
+          ext4: '',
+          supplyplancode: '280100002432F1001314',
+          ebeln: '100002432',
+          ebelp: '10',
+          matnr: '510111749',
+          maktx: '千兆纵向加密认证装置,4,明文吞吐量95Mbps,密文吞吐量25Mbps',
+          zjjsl: '1',
+          menge: '1',
+          meins: '台',
+          werks: 'XA01',
+          werksdescription: '国网青海省西宁供电公司工厂',
+          lgort: '91X1',
+          lgortdescription: '青海省电力公司西宁项目直发虚拟库',
+          whsenumber: '',
+          posid: '16280114005B0021111140',
+          post1Wbs: '变电工程－主控制室－照明',
+          zxmdw: '',
+          username: '',
+          zfhfqz: '周专',
+          zfhfsj: '2019.05.24',
+          zshfqz: '王凯',
+          zshfsj: '2019.05.24',
+          zsjjhq: '2019.05.24',
+          actualdeliverypl: '现场交货',
+          remark: '',
+          pstngDate: '2019.11.09',
+          blart: '2019.11.09',
+          bwart: '106',
+          bukrs: '2800',
+          bukrsdescription: '国网青海省电力公司',
+          zyjfhq: '2019.05.24',
+          eindt: '2019.05.24',
+          suppliername: '江苏通光光缆有限公司',
+          supplinkman: '',
+          supplinkmantelep: '',
+          carrlinkman: '',
+          carrlinkmantelep: '',
+          delinkman: '',
+          delinkmantelepho: '',
+          msgcode: '',
+          msgdesp: '',
+          mblnr: '',
+          gjahr: ''
+        }
       ],
       editForm: {
         lgort: '',
@@ -934,7 +617,7 @@ export default {
       tableHeight: 536,
       ecHeight: 0,
       formLabelWidth: '140px',
-      total: 1
+      total: 0
     }
   },
   created () {
@@ -978,7 +661,7 @@ export default {
           .then(() => {
             this.$message({
               type: 'success',
-              message: '操作成功!'
+              message: '冲销成功!'
             })
           })
           .catch(() => {
@@ -988,10 +671,6 @@ export default {
             })
           })
       }
-    },
-    // 重置
-    resetForm (formName) {
-      this.$refs[formName].resetFields()
     },
     // 保存提交
     clickButton (from) {
@@ -1009,31 +688,44 @@ export default {
         }
       })
     },
-    // 查询
-    qureySform () {
-      this.iscord = true
-      this.tableHeight = window.innerHeight - 735
-      this.$message({
-        message: '暂无数据',
-        type: 'warning'
-      })
-    },
-    // 清除条件
-    clearForm () {
-      this.iscord = false
+    // 重置
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+      this.tabsData = []
+      this.total = 0
       this.tableHeight = window.innerHeight - 401
+    },
+    // 查询
+    qureySform (form) {
+      // eslint-disable-next-line eqeqeq
+      if (form.supplyplancode == '') {
+        this.$message({
+          message: '请输入交接单号',
+          type: 'warning'
+        })
+      // eslint-disable-next-line eqeqeq
+      } else if (form.supplyplancode == '280100002432F1001314') {
+        this.tabsData = this.tabsrData
+        this.total = this.tabsrData.length
+        this.tableHeight = window.innerHeight - 735
+      } else {
+        this.$message({
+          message: '暂无数据',
+          type: 'warning'
+        })
+      }
     },
     // 数据获取
     getYscx () {
-      this.$ajax
-        .get(
-          `/tblyscx/?rnd=571502057613169&params={"columns":"wid,ext4,supplyplancode,ebeln,ebelp,zsjdhsl,werks,werksdescription,lgort,lgortdescription,pstngDate,blart,bwart,zwzgygsqz,zwzgygssj,zqmdwjsrqz,zqmdwjsrsj,zgysjfrqz,zgysjfrsj,zjldwrqz,zjldwrsj,zsgdwrqz,zsgdwrsj,carrlinkman,carrlinkmantelep,zjdhq,zyjfhq,eindt,zhtzs,zthsl,zbczcs,zbchhsl,remark,posid,post1Wbs,zxmdw,matnr,maktx,bukrs,bukrsdescription,meins,username,zsjjhq,msgcode,msgdesp,mblnr,gjahr","sorter":"zcsxh DESC","pageIndex":1,"pageSize":20}`
-        )
-        .then(res => {
-          console.log(res.data.resultValue)
-          this.total = res.data.resultValue.itemCount
-          this.tabsData = res.data.resultValue.items
-        })
+      // this.$ajax
+      //   .get(
+      //     `/tblyscx/?rnd=571502057613169&params={"columns":"wid,ext4,supplyplancode,ebeln,ebelp,zsjdhsl,werks,werksdescription,lgort,lgortdescription,pstngDate,blart,bwart,zwzgygsqz,zwzgygssj,zqmdwjsrqz,zqmdwjsrsj,zgysjfrqz,zgysjfrsj,zjldwrqz,zjldwrsj,zsgdwrqz,zsgdwrsj,carrlinkman,carrlinkmantelep,zjdhq,zyjfhq,eindt,zhtzs,zthsl,zbczcs,zbchhsl,remark,posid,post1Wbs,zxmdw,matnr,maktx,bukrs,bukrsdescription,meins,username,zsjjhq,msgcode,msgdesp,mblnr,gjahr","sorter":"zcsxh DESC","pageIndex":1,"pageSize":20}`
+      //   )
+      //   .then(res => {
+      //     console.log(res.data.resultValue)
+      //     this.total = res.data.resultValue.itemCount
+      //     this.tabsData = res.data.resultValue.items
+      //   })
     },
     handleSizeChange (val) {
       // this.$ajax

@@ -43,7 +43,7 @@
       >
         交接冲销(sl)
       </el-menu-item>
-      <el-menu-item
+      <!-- <el-menu-item
         index="/tyczd"
         class="el-icon-s-order"
       >
@@ -67,6 +67,18 @@
       >
         工程结余物资退库(sl)
       </el-menu-item>
+      <el-menu-item
+        index="/kchd"
+        class="el-icon-s-order"
+      >
+        库存核对(stp)
+      </el-menu-item>
+      <el-menu-item
+        index="/ylfh"
+        class="el-icon-s-order"
+      >
+        预留发货(sl)
+      </el-menu-item> -->
     </el-submenu>
   </el-menu>
 </template>

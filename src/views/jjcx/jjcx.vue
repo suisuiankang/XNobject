@@ -30,7 +30,7 @@
               :sm="{span:8,offset:0}"
             >
               <el-form-item
-                label="发货通知单号:"
+                label="交接单号:"
                 prop="supplyplancode"
               >
                 <el-input v-model="mForm.supplyplancode" />
@@ -74,14 +74,7 @@
                 label="公司代码:"
                 prop="bukrs"
               >
-                <el-select v-model="mForm.bukrs">
-                  <el-option
-                    v-for="(item,i) in bukrsForm"
-                    :key="i"
-                    :label="item.text"
-                    :value="item.value"
-                  />
-                </el-select>
+                <el-select v-model="mForm.bukrs" />
               </el-form-item>
             </el-col>
             <el-col
@@ -96,7 +89,7 @@
               >
                 <el-select
                   v-model="mForm.werks"
-                  placeholder=" "
+                  placeholder="请选择"
                 />
               </el-form-item>
             </el-col>
@@ -174,7 +167,7 @@
         <div class="jjcx-xuanxian">
           <el-button
             type="primary"
-            @click="qxForm(mForm)"
+            @click="qxForm()"
           >
             确认冲销
           </el-button>
@@ -185,7 +178,7 @@
               :max-height="tableHeight"
               tooltip-effect="dark"
               style="width: 100%"
-              :data="tabgData"
+              :data="tabjData"
               :header-cell-style="{background:'#edf5f2'}"
               @selection-change="handleSelectionChange"
             >
@@ -209,7 +202,7 @@
                 header-align="center"
                 align="center"
                 prop="supplyplancode"
-                label="发货通知单号"
+                label="交接单号"
                 width="110"
               />
               <el-table-column
@@ -585,52 +578,54 @@ export default {
         lgort: '',
         ebeln: ''
       },
-      tabgData: [
-        // {
-        //   ext4: '',
-        //   supplyplancode: '',
-        //   ebeln: '',
-        //   ebelp: '',
-        //   matnr: '',
-        //   maktx: '',
-        //   zjjsl: '',
-        //   menge: '',
-        //   meins: '',
-        //   werks: '',
-        //   werksdescription: '',
-        //   lgort: '',
-        //   lgortdescription: '',
-        //   whsenumber: '',
-        //   posid: '',
-        //   post1Wbs: '',
-        //   zxmdw: '',
-        //   username: '',
-        //   zfhfqz: '',
-        //   zfhfsj: '',
-        //   zshfqz: '',
-        //   zshfsj: '',
-        //   zsjjhq: '',
-        //   actualdeliverypl: '',
-        //   remark: '',
-        //   pstngDate: '',
-        //   blart: '',
-        //   bwart: '',
-        //   bukrs: '',
-        //   bukrsdescription: '',
-        //   zyjfhq: '',
-        //   eindt: '',
-        //   suppliername: '',
-        //   supplinkman: '',
-        //   supplinkmantelep: '',
-        //   carrlinkman: '',
-        //   carrlinkmantelep: '',
-        //   delinkman: '',
-        //   delinkmantelepho: '',
-        //   msgcode: '',
-        //   msgdesp: '',
-        //   mblnr: '',
-        //   gjahr: ''
-        // }
+      tabjData: [
+      ],
+      tabjrData: [
+        {
+          ext4: '',
+          supplyplancode: '280100002432F1001314',
+          ebeln: '100002432',
+          ebelp: '10',
+          matnr: '510111749',
+          maktx: '千兆纵向加密认证装置,4,明文吞吐量95Mbps,密文吞吐量25Mbps',
+          zjjsl: '1',
+          menge: '1',
+          meins: '台',
+          werks: 'XA01',
+          werksdescription: '国网青海省西宁供电公司工厂',
+          lgort: '91X1',
+          lgortdescription: '青海省电力公司西宁项目直发虚拟库',
+          whsenumber: '',
+          posid: '16280114005B0021111140',
+          post1Wbs: '变电工程－主控制室－照明',
+          zxmdw: '',
+          username: '',
+          zfhfqz: '周专',
+          zfhfsj: '2019.05.24',
+          zshfqz: '王凯',
+          zshfsj: '2019.05.24',
+          zsjjhq: '2019.05.24',
+          actualdeliverypl: '现场交货',
+          remark: '',
+          pstngDate: '2019.11.09',
+          blart: '2019.11.09',
+          bwart: '104',
+          bukrs: '2800',
+          bukrsdescription: '国网青海省电力公司',
+          zyjfhq: '2019.05.24',
+          eindt: '2019.05.24',
+          suppliername: '江苏通光光缆有限公司',
+          supplinkman: '',
+          supplinkmantelep: '',
+          carrlinkman: '',
+          carrlinkmantelep: '',
+          delinkman: '',
+          delinkmantelepho: '',
+          msgcode: '',
+          msgdesp: '',
+          mblnr: '',
+          gjahr: ''
+        }
       ],
       isEdit: false,
       tableHeight: 536,
@@ -654,7 +649,6 @@ export default {
     that.fff()
   },
   created () {
-    this.getJjcx()
   },
   methods: {
     // 数据获取
@@ -668,7 +662,7 @@ export default {
           this.bukrsForm = res.data.resultValue.dicts[0].values
           this.werksForm = res.data.resultValue.dicts[1].values
           this.total = res.data.resultValue.itemCount
-          this.tabgData = res.data.resultValue.items
+          this.tabjData = res.data.resultValue.items
         })
     },
     // 时间转换
@@ -715,7 +709,7 @@ export default {
       }
     },
     // 冲销
-    qxForm (mForm) {
+    qxForm () {
       // eslint-disable-next-line eqeqeq
       if (this.multipleSelection.length == 0) {
         this.$message({
@@ -724,7 +718,7 @@ export default {
         })
       } else {
         this.$message({
-          message: '成功冲销',
+          message: '冲销成功',
           type: 'success'
         })
       }
@@ -747,76 +741,25 @@ export default {
       })
     },
     // 查询
-    queryForm (mForm) {
-      var arr = {}
+    queryForm (form) {
       // eslint-disable-next-line eqeqeq
-      if (mForm.supplyplancode != '') {
-        console.log(mForm.supplyplancode)
-        arr = `supplyplancode=${mForm.supplyplancode}`
-      }
+      if (form.supplyplancode == '') {
+        this.$message({
+          message: '请输入交接单号',
+          type: 'warning'
+        })
       // eslint-disable-next-line eqeqeq
-      if (mForm.mblnr != '' && JSON.stringify(arr) == '{}') {
-        arr = `mblnr=${mForm.mblnr}`
-        // eslint-disable-next-line eqeqeq
-      } else if (mForm.mblnr != '') {
-        arr = arr + `%26mblnr=${mForm.mblnr}`
-      }
-      // eslint-disable-next-line eqeqeq
-      if (mForm.gjahr != '' && JSON.stringify(arr) == '{}') {
-        arr = `gjahr=${mForm.gjahr}`
-        // eslint-disable-next-line eqeqeq
-      } else if (mForm.gjahr != '') {
-        arr = arr + `%26gjahr=${mForm.gjahr}`
-      }
-      // eslint-disable-next-line eqeqeq
-      if (mForm.bukrs != '' && JSON.stringify(arr) == '{}') {
-        arr = `bukrs=${mForm.bukrs}`
-        // eslint-disable-next-line eqeqeq
-      } else if (mForm.bukrs != '') {
-        arr = arr + `%26bukrs=${mForm.bukrs}`
-      }
-      // eslint-disable-next-line eqeqeq
-      if (mForm.werks != '' && JSON.stringify(arr) == '{}') {
-        arr = `werks=${mForm.werks}`
-        // eslint-disable-next-line eqeqeq
-      } else if (mForm.werks != '') {
-        arr = arr + `%26werks=${mForm.werks}`
-      }
-      // eslint-disable-next-line eqeqeq
-      if (mForm.lgort != '' && JSON.stringify(arr) == '{}') {
-        arr = `lgort=${mForm.lgort}`
-        // eslint-disable-next-line eqeqeq
-      } else if (mForm.lgort != '') {
-        arr = arr + `%26lgort=${mForm.lgort}`
-      }
-      // eslint-disable-next-line eqeqeq
-      if (mForm.ebeln != '' && JSON.stringify(arr) == '{}') {
-        arr = `ebeln=${mForm.ebeln}`
-        // eslint-disable-next-line eqeqeq
-      } else if (mForm.ebeln != '') {
-        arr = arr + `%26ebeln=${mForm.ebeln}`
-      }
-      // 判断对象是否为空;
-      // eslint-disable-next-line eqeqeq
-      if (JSON.stringify(arr) == '{}') {
-        this.getJjcx()
+      } else if (form.supplyplancode == '280100002432F1001314') {
+        this.tabjData = this.tabjrData
+        this.total = this.tabjrData.length
+        this.tableHeight = window.innerHeight - 735
       } else {
-        arr = `"filter":"` + arr + `"`
-        this.$ajax
-          .get(
-            'tbljjcx/?' +
-              'params={"columns":"wid,ext4,supplyplancode,ebeln,ebelp,matnr,maktx,zjjsl,menge,meins,werks,werksdescription,lgort,lgortdescription,whsenumber,posid,post1Wbs,zxmdw,username,zfhfqz,zfhfsj,zshfqz,zshfsj,zsjjhq,actualdeliverypl,remark,pstngDate,blart,bwart,bukrs,bukrsdescription,zyjfhq,eindt,suppliername,supplinkman,supplinkmantelep,carrlinkman,carrlinkmantelep,delinkman,delinkmantelepho,msgcode,msgdesp,mblnr,gjahr",' +
-              arr +
-              ',"pageIndex":1,"pageSize":20}'
-          )
-          .then(res => {
-            //   console.log(res.data);
-            this.total = res.data.resultValue.itemCount
-            this.tabgData = res.data.resultValue.items
-          })
+        this.$message({
+          message: '暂无数据',
+          type: 'warning'
+        })
       }
     },
-
     // 保存选中结果
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -824,25 +767,25 @@ export default {
     },
     // 获取页数信息
     handleSizeChange (val) {
-      this.$ajax
-        .get(
-          `tbljjcx/?params={"columns":"wid,ext4,supplyplancode,ebeln,ebelp,matnr,maktx,zjjsl,menge,meins,werks,werksdescription,lgort,lgortdescription,whsenumber,posid,post1Wbs,zxmdw,username,zfhfqz,zfhfsj,zshfqz,zshfsj,zsjjhq,actualdeliverypl,remark,pstngDate,blart,bwart,bukrs,bukrsdescription,zyjfhq,eindt,suppliername,supplinkman,supplinkmantelep,carrlinkman,carrlinkmantelep,delinkman,delinkmantelepho,msgcode,msgdesp,mblnr,gjahr","sorter":"zcsxh DESC","pageIndex":1,"pageSize":${val}}`
-        )
-        .then(res => {
-          //   console.log(res.data.resultValue);
-          this.tabgData = res.data.resultValue.items
-        })
+      // this.$ajax
+      //   .get(
+      //     `tbljjcx/?params={"columns":"wid,ext4,supplyplancode,ebeln,ebelp,matnr,maktx,zjjsl,menge,meins,werks,werksdescription,lgort,lgortdescription,whsenumber,posid,post1Wbs,zxmdw,username,zfhfqz,zfhfsj,zshfqz,zshfsj,zsjjhq,actualdeliverypl,remark,pstngDate,blart,bwart,bukrs,bukrsdescription,zyjfhq,eindt,suppliername,supplinkman,supplinkmantelep,carrlinkman,carrlinkmantelep,delinkman,delinkmantelepho,msgcode,msgdesp,mblnr,gjahr","sorter":"zcsxh DESC","pageIndex":1,"pageSize":${val}}`
+      //   )
+      //   .then(res => {
+      //     //   console.log(res.data.resultValue);
+      //     this.tabjData = res.data.resultValue.items
+      //   })
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      this.$ajax
-        .get(
-          `tbljjcx/?params={"columns":"wid,ext4,supplyplancode,ebeln,ebelp,matnr,maktx,zjjsl,menge,meins,werks,werksdescription,lgort,lgortdescription,whsenumber,posid,post1Wbs,zxmdw,username,zfhfqz,zfhfsj,zshfqz,zshfsj,zsjjhq,actualdeliverypl,remark,pstngDate,blart,bwart,bukrs,bukrsdescription,zyjfhq,eindt,suppliername,supplinkman,supplinkmantelep,carrlinkman,carrlinkmantelep,delinkman,delinkmantelepho,msgcode,msgdesp,mblnr,gjahr","sorter":"zcsxh DESC","pageIndex":${val},"pageSize":20}`
-        )
-        .then(res => {
-          //   console.log(res.data.resultValue);
-          this.tabgData = res.data.resultValue.items
-        })
+      // this.$ajax
+      //   .get(
+      //     `tbljjcx/?params={"columns":"wid,ext4,supplyplancode,ebeln,ebelp,matnr,maktx,zjjsl,menge,meins,werks,werksdescription,lgort,lgortdescription,whsenumber,posid,post1Wbs,zxmdw,username,zfhfqz,zfhfsj,zshfqz,zshfsj,zsjjhq,actualdeliverypl,remark,pstngDate,blart,bwart,bukrs,bukrsdescription,zyjfhq,eindt,suppliername,supplinkman,supplinkmantelep,carrlinkman,carrlinkmantelep,delinkman,delinkmantelepho,msgcode,msgdesp,mblnr,gjahr","sorter":"zcsxh DESC","pageIndex":${val},"pageSize":20}`
+      //   )
+      //   .then(res => {
+      //     //   console.log(res.data.resultValue);
+      //     this.tabjData = res.data.resultValue.items
+      //   })
       console.log(`当前页: ${val}`)
     },
     indexMethod (index) {
@@ -850,6 +793,8 @@ export default {
     },
     // 重置
     restForm (mForm) {
+      this.tabjData = []
+      this.total = 0
       this.$nextTick(() => {
         this.$refs[mForm].resetFields()
       })

@@ -11,6 +11,8 @@ import Tyczd from '../views/tyzcd/tyzcd'
 import Xlzd from '../views/xlzd/xtzd'
 import Gwscrk from '../views/gwscrk/gwscrk'
 import Gjwt from '../views/gjwt/gcjywztk'
+import Kchd from '../views/kc_check/kchd'
+import Ylfh from '../views/ylfh/ylfh'
 
 Vue.use(VueRouter)
 
@@ -63,6 +65,16 @@ const routes = [{
   path: '/gjwt',
   name: 'gjwt',
   component: Gjwt
+},
+{
+  path: '/kchd',
+  name: 'kchd',
+  component: Kchd
+},
+{
+  path: '/ylfh',
+  name: 'ylfh',
+  component: Ylfh
 }
 ]
 
