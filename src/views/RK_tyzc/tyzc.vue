@@ -1,8 +1,8 @@
 <template>
   <el-container>
     <el-main>
-      <div class="gcjy-top">
-        <div class="gcjy-wz">
+      <div class="tzd-top">
+        <div class="tzd-wz">
           <img
             src="../../static/images/Ticon.png"
             alt
@@ -11,39 +11,42 @@
             <el-breadcrumb-item :to="{ path: '/' }">
               首页
             </el-breadcrumb-item>
-            <el-breadcrumb-item>工程结余物资退库</el-breadcrumb-item>
+            <el-breadcrumb-item>退役资产代保管</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
       </div>
-      <div class="gcjy-bt">
-        <div class="gcjy-jg">
+      <div class="tzd-bt">
+        <div class="tzd-jg">
           <img
             src="../../static/images/bicon.png"
             alt
           >
           查询结果
         </div>
-        <div class="gcjy-xuanxiane">
+        <div class="tzd-xuanxiane">
           <el-button
             type="primary"
+            size="small"
             @click="isBuild=true"
           >
             新增
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="isPosting()"
           >
             确认过账
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="isDelete()"
           >
             删除
           </el-button>
         </div>
-        <div class="gcjy-xj">
+        <div class="tzd-xj">
           <el-dialog
             title="表单填写"
             :visible.sync="isBuild"
@@ -71,7 +74,7 @@
                   >
                     <el-select
                       v-model="xjform.xjf1"
-                      placeholder="222"
+                      placeholder="请选择"
                     />
                   </el-form-item>
                 </el-col>
@@ -89,7 +92,7 @@
                   >
                     <el-input
                       v-model="xjform.xjf2"
-                      placeholder="工程结余物资退库"
+                      :disabled="true"
                     />
                   </el-form-item>
                 </el-col>
@@ -107,7 +110,7 @@
                   >
                     <el-select
                       v-model="xjform.xjf3"
-                      placeholder="Q"
+                      placeholder="请选择"
                     />
                   </el-form-item>
                 </el-col>
@@ -154,6 +157,41 @@
                   </el-form-item>
                 </el-col>
               </el-row>
+              <el-row>
+                <el-col
+                  :xl="{span:20,offset:4}"
+                  :lg="{span:20,offset:3}"
+                  :md="{span:20,offset:1}"
+                  :sm="{span:22,offset:0}"
+                >
+                  <el-form-item
+                    label="凭证抬头文本:"
+                    prop="xjf6"
+                  >
+                    <el-input
+                      v-model="xjform.xjf6"
+                    />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col
+                  :xl="{span:20,offset:4}"
+                  :lg="{span:20,offset:3}"
+                  :md="{span:20,offset:1}"
+                  :sm="{span:22,offset:0}"
+                >
+                  <el-form-item
+                    label="数据来源:"
+                    prop="xjf7"
+                  >
+                    <el-input
+                      v-model="xjform.xjf7"
+                      :disabled="true"
+                    />
+                  </el-form-item>
+                </el-col>
+              </el-row>
             </el-form>
             <span
               slot="footer"
@@ -161,6 +199,7 @@
             >
               <el-button
                 type="primary"
+                size="small"
                 @click="submitForm('xjform');clickButton(xjform)"
               >保存</el-button>
             </span>
@@ -595,27 +634,31 @@
             @current-change="handleCurrentChange"
           />
         </div>
-        <div class="gcjy-xuanxianr">
+        <div class="tzd-xuanxianr">
           <el-button
             type="primary"
+            size="small"
             @click="isBuildr()"
           >
             新增
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="isbjr()"
           >
             编辑
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="isDeleter()"
           >
             删除
           </el-button>
           <el-button
             type="primary"
+            size="small"
           >
             绑定实物ID
           </el-button>
@@ -637,7 +680,6 @@
               />
               <el-table-column
                 header-align="center"
-                ext4
                 prop="ext4"
                 label="物料凭证行"
                 width="140"
@@ -663,6 +705,13 @@
                 align="center"
                 prop="ebelp"
                 label="计量单位"
+                width="120"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                prop="matnr"
+                label="公司代码"
                 width="120"
               />
               <el-table-column
@@ -703,7 +752,6 @@
               />
               <el-table-column
                 header-align="center"
-
                 prop="werksdescription"
                 label="工厂名称"
                 width="120"
@@ -711,7 +759,6 @@
               />
               <el-table-column
                 header-align="center"
-                align="center"
                 :show-overflow-tooltip="true"
                 prop="posid"
                 label="库存地点"
@@ -730,7 +777,6 @@
                 prop="xmpost1"
                 label="总帐科目"
                 width="120"
-                align="center"
               />
               <el-table-column
                 header-align="center"
@@ -738,31 +784,6 @@
                 prop="pratx"
                 label="成本中心"
                 width="120"
-                align="center"
-              />
-              <el-table-column
-                header-align="center"
-                :show-overflow-tooltip="true"
-                prop="pratx"
-                label="资产编码"
-                width="120"
-                align="center"
-              />
-              <el-table-column
-                header-align="center"
-                :show-overflow-tooltip="true"
-                prop="pratx"
-                label="明细分类"
-                width="120"
-                align="center"
-              />
-              <el-table-column
-                header-align="center"
-                :show-overflow-tooltip="true"
-                prop="pratx"
-                label="外部金额LC"
-                width="120"
-                align="center"
               />
               <el-table-column
                 header-align="center"
@@ -770,23 +791,6 @@
                 prop="zhtbh"
                 label="物资入库类型"
                 width="120"
-                align="center"
-              />
-              <el-table-column
-                header-align="center"
-                :show-overflow-tooltip="true"
-                prop="zhtbh"
-                label="成本大类"
-                width="120"
-                align="center"
-              />
-              <el-table-column
-                header-align="center"
-                :show-overflow-tooltip="true"
-                prop="zhtbh"
-                label="费用明细"
-                width="120"
-                align="center"
               />
             </el-table>
           </template>
@@ -861,97 +865,186 @@ export default {
       tabteData: [
         {
           ext4: '已处理',
-          supplyplancode: '1',
-          ebeln: '2',
-          ebelp: '3',
-          matnr: '4',
-          maktx: '5',
-          zjjsl: '6',
-          menge: '7',
-          meins: '8',
-          werks: '9',
-          werksdescription: '10',
-          posid: '1',
-          psphi: '2',
-          xmpost1: '3',
-          pratx: '4',
-          zhtbh: '5',
-          zxmdw: '6',
-          username: '7',
-          zfhfqz: '8',
-          zfhfsj: '9',
-          zshfqz: '10',
-          zshfsj: '11',
-          zsjjhq: '12',
-          actualdeliverypl: '13',
-          remark: '14',
-          pstngDate: '15',
-          blart: '16',
-          bwart: '17',
-          bukrs: '18',
-          bukrsdescription: '19',
-          zyjfhq: '20',
-          eindt: '21',
-          suppliername: '22',
-          supplinkman: '23',
-          supplinkmantelep: '24',
-          carrlinkman: '25',
-          carrlinkmantelep: '26',
-          delinkman: '27',
-          delinkmantelepho: '28',
-          msgcode: '29',
-          msgdesp: '30',
-          mblnr: '31',
-          gjahr: '32'
-        }
-
-      ],
-      tabtrData: [
+          supplyplancode: '0',
+          ebeln: '0',
+          ebelp: '0',
+          matnr: '0',
+          maktx: '0',
+          zjjsl: '0',
+          menge: '0',
+          meins: '0',
+          werks: '0',
+          werksdescription: '0',
+          posid: '',
+          psphi: '',
+          xmpost1: '',
+          pratx: '',
+          zhtbh: '',
+          zxmdw: '',
+          username: '',
+          zfhfqz: '',
+          zfhfsj: '',
+          zshfqz: '',
+          zshfsj: '',
+          zsjjhq: '',
+          actualdeliverypl: '',
+          remark: '',
+          pstngDate: '',
+          blart: '',
+          bwart: '',
+          bukrs: '',
+          bukrsdescription: '',
+          zyjfhq: '',
+          eindt: '',
+          suppliername: '',
+          supplinkman: '',
+          supplinkmantelep: '',
+          carrlinkman: '',
+          carrlinkmantelep: '',
+          delinkman: '',
+          delinkmantelepho: '',
+          msgcode: '',
+          msgdesp: '',
+          mblnr: '',
+          gjahr: ''
+        },
         {
           ext4: '已处理',
-          supplyplancode: '1',
-          ebeln: '2',
-          ebelp: '3',
-          matnr: '4',
-          maktx: '5',
-          zjjsl: '6',
-          menge: '7',
-          meins: '8',
-          werks: '9',
-          werksdescription: '10',
-          posid: '1',
-          psphi: '2',
-          xmpost1: '3',
-          pratx: '4',
-          zhtbh: '5',
-          zxmdw: '6',
-          username: '7',
-          zfhfqz: '8',
-          zfhfsj: '9',
-          zshfqz: '10',
-          zshfsj: '11',
-          zsjjhq: '12',
-          actualdeliverypl: '13',
-          remark: '14',
-          pstngDate: '15',
-          blart: '16',
-          bwart: '17',
-          bukrs: '18',
-          bukrsdescription: '19',
-          zyjfhq: '20',
-          eindt: '21',
-          suppliername: '22',
-          supplinkman: '23',
-          supplinkmantelep: '24',
-          carrlinkman: '25',
-          carrlinkmantelep: '26',
-          delinkman: '27',
-          delinkmantelepho: '28',
-          msgcode: '29',
-          msgdesp: '30',
-          mblnr: '31',
-          gjahr: '32'
+          supplyplancode: '0',
+          ebeln: '0',
+          ebelp: '0',
+          matnr: '0',
+          maktx: '0',
+          zjjsl: '0',
+          menge: '0',
+          meins: '0',
+          werks: '0',
+          werksdescription: '0',
+          posid: '',
+          psphi: '',
+          xmpost1: '',
+          pratx: '',
+          zhtbh: '',
+          zxmdw: '',
+          username: '',
+          zfhfqz: '',
+          zfhfsj: '',
+          zshfqz: '',
+          zshfsj: '',
+          zsjjhq: '',
+          actualdeliverypl: '',
+          remark: '',
+          pstngDate: '',
+          blart: '',
+          bwart: '',
+          bukrs: '',
+          bukrsdescription: '',
+          zyjfhq: '',
+          eindt: '',
+          suppliername: '',
+          supplinkman: '',
+          supplinkmantelep: '',
+          carrlinkman: '',
+          carrlinkmantelep: '',
+          delinkman: '',
+          delinkmantelepho: '',
+          msgcode: '',
+          msgdesp: '',
+          mblnr: '',
+          gjahr: ''
+        },
+        {
+          ext4: '已处理',
+          supplyplancode: '0',
+          ebeln: '0',
+          ebelp: '0',
+          matnr: '0',
+          maktx: '0',
+          zjjsl: '0',
+          menge: '0',
+          meins: '0',
+          werks: '0',
+          werksdescription: '0',
+          posid: '',
+          psphi: '',
+          xmpost1: '',
+          pratx: '',
+          zhtbh: '',
+          zxmdw: '',
+          username: '',
+          zfhfqz: '',
+          zfhfsj: '',
+          zshfqz: '',
+          zshfsj: '',
+          zsjjhq: '',
+          actualdeliverypl: '',
+          remark: '',
+          pstngDate: '',
+          blart: '',
+          bwart: '',
+          bukrs: '',
+          bukrsdescription: '',
+          zyjfhq: '',
+          eindt: '',
+          suppliername: '',
+          supplinkman: '',
+          supplinkmantelep: '',
+          carrlinkman: '',
+          carrlinkmantelep: '',
+          delinkman: '',
+          delinkmantelepho: '',
+          msgcode: '',
+          msgdesp: '',
+          mblnr: '',
+          gjahr: ''
+        },
+        {
+          ext4: '已处理',
+          supplyplancode: '0',
+          ebeln: '0',
+          ebelp: '0',
+          matnr: '0',
+          maktx: '0',
+          zjjsl: '0',
+          menge: '0',
+          meins: '0',
+          werks: '0',
+          werksdescription: '0',
+          posid: '',
+          psphi: '',
+          xmpost1: '',
+          pratx: '',
+          zhtbh: '',
+          zxmdw: '',
+          username: '',
+          zfhfqz: '',
+          zfhfsj: '',
+          zshfqz: '',
+          zshfsj: '',
+          zsjjhq: '',
+          actualdeliverypl: '',
+          remark: '',
+          pstngDate: '',
+          blart: '',
+          bwart: '',
+          bukrs: '',
+          bukrsdescription: '',
+          zyjfhq: '',
+          eindt: '',
+          suppliername: '',
+          supplinkman: '',
+          supplinkmantelep: '',
+          carrlinkman: '',
+          carrlinkmantelep: '',
+          delinkman: '',
+          delinkmantelepho: '',
+          msgcode: '',
+          msgdesp: '',
+          mblnr: '',
+          gjahr: ''
         }
+      ],
+      tabtrData: [
       ],
       editForm: {
         lgort: '',
@@ -990,7 +1083,7 @@ export default {
       // eslint-disable-next-line eqeqeq
       if (this.multipleSelection.length == 0) {
         this.$message({
-          message: '未选中删除内容',
+          message: '未选中编辑内容',
           type: 'warning'
         })
       } else {
@@ -1044,7 +1137,7 @@ export default {
       // eslint-disable-next-line eqeqeq
       if (this.multipleSelection.length == 0) {
         this.$message({
-          message: '未选中删除内容',
+          message: '未选中编辑内容',
           type: 'warning'
         })
       } else {
@@ -1155,11 +1248,11 @@ export default {
   .el-main {
     padding: 10px;
     overflow-y: hidden;
-    .gcjy-top {
+    .tzd-top {
       padding: 10px;
       background-color: #fff;
 
-      .gcjy-wz {
+      .tzd-wz {
         position: relative;
         padding: 2px 10px 0 30px;
         img {
@@ -1169,11 +1262,11 @@ export default {
         }
       }
     }
-    .gcjy-bt {
+    .tzd-bt {
       margin-top: 10px;
       background-color: #fff;
       padding: 10px;
-      .gcjy-jg {
+      .tzd-jg {
         position: relative;
         padding: 6px 10px 0 30px;
         font-size: 18px;
@@ -1184,7 +1277,7 @@ export default {
           left: 0;
         }
       }
-      .gcjy-xuanxiane {
+      .tzd-xuanxiane {
         position: relative;
         box-sizing: border-box;
         width: 100%;
@@ -1200,17 +1293,18 @@ export default {
           left: 0;
         }
         .el-button:nth-child(2) {
+          width: 80px;
           position: absolute;
           top: 15px;
-          left: 80px;
+          left: 70px;
         }
         .el-button:nth-child(3) {
           position: absolute;
           top: 15px;
-          left: 198px;
+          left: 174px;
         }
       }
-      .gcjy-xj {
+      .tzd-xj {
         /deep/ .el-dialog {
           width: 35%!important;
           .el-dialog__header {
@@ -1288,7 +1382,7 @@ export default {
           height: 34px !important;
         }
       }
-      .gcjy-xuanxianr {
+      .tzd-xuanxianr {
         position: relative;
         box-sizing: border-box;
         width: 100%;
@@ -1306,17 +1400,18 @@ export default {
         .el-button:nth-child(2) {
           position: absolute;
           top: 15px;
-          left: 80px;
+          left: 70px;
         }
         .el-button:nth-child(3) {
           position: absolute;
           top: 15px;
-          left: 170px;
+          left: 150px;
         }
         .el-button:nth-child(4) {
+          width: 110px;
           position: absolute;
           top: 15px;
-          left: 260px;
+          left: 230px;
         }
       }
       .sw-listr {

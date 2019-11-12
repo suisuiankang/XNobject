@@ -26,24 +26,28 @@
         <div class="rs-xuanxiang">
           <el-button
             type="primary"
+            size="small"
             @click="setone = true"
           >
             编辑
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="qrck()"
           >
             确认出库
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="llddy()"
           >
             领料单打印
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="ckddy()"
           >
             出库单打印
@@ -119,7 +123,6 @@
                   >
                     <el-input
                       v-model="bjform.xjf3"
-                    
                     />
                   </el-form-item>
                 </el-col>
@@ -137,7 +140,6 @@
                   >
                     <el-input
                       v-model="bjform.xjf4"
-                    
                     />
                   </el-form-item>
                 </el-col>
@@ -155,7 +157,6 @@
                   >
                     <el-input
                       v-model="bjform.xjf6"
-                      
                     />
                   </el-form-item>
                 </el-col>
@@ -188,7 +189,6 @@
                   >
                     <el-input
                       v-model="bjform.xjf7"
-                   
                     />
                   </el-form-item>
                 </el-col>
@@ -206,7 +206,6 @@
                   >
                     <el-input
                       v-model="bjform.xjf8"
-                     
                     />
                   </el-form-item>
                 </el-col>
@@ -224,7 +223,6 @@
                   >
                     <el-input
                       v-model="bjform.xjf9"
-                     
                     />
                   </el-form-item>
                 </el-col>
@@ -251,6 +249,7 @@
             >
               <el-button
                 type="primary"
+                size="small"
                 @click="xinjian()"
               >保存</el-button>
             </span>
@@ -259,50 +258,107 @@
 
         <div class="bangding">
           <el-dialog
-            title="绑定实物ID"
+            title="关联实物ID"
             :visible.sync="bd"
             center
           >
             <el-table style="width: 100%">
               <el-table-column
+                header-align="center"
+                align="center"
+                label="序号"
+                type="index"
+                :index="indexMethod"
+                width="55"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                style="border-right: 1px solid #ccc;"
+                type="selection"
+                width="55"
+              />
+              <el-table-column
                 prop="q"
-                label="项目1"
+                label="采购凭证"
+                header-align="center"
+                align="center"
               />
               <el-table-column
                 prop="w"
-                label="项目2"
-              />
-              <el-table-column
-                prop="e"
-                label="项目3"
-              />
-              <el-table-column
-                prop="r"
-                label="项目4"
+                label="行项目"
+                header-align="center"
+                align="center"
               />
               <el-table-column
                 prop="t"
-                label="项目5"
+                label="序列号"
+                header-align="center"
+                align="center"
+              />
+              <el-table-column
+                prop="e"
+                label="序号"
+                header-align="center"
+                align="center"
+              />
+              <el-table-column
+                prop="r"
+                label="子序号"
+                header-align="center"
+                align="center"
               />
               <el-table-column
                 prop="y"
-                label="项目6"
-              />
-              <el-table-column
-                prop="u"
-                label="项目7"
+                label="实物ID"
+                header-align="center"
+                align="center"
               />
               <el-table-column
                 prop="i"
-                label="项目8"
+                label="上级实物ID"
+                header-align="center"
+                width="120"
+                align="center"
               />
               <el-table-column
                 prop="o"
-                label="项目9"
+                label="物料编码"
+                header-align="center"
+                align="center"
               />
               <el-table-column
                 prop="p"
-                label="项目10"
+                label="物料描述"
+                header-align="center"
+                align="center"
+              />
+              <el-table-column
+                prop="a"
+                label="技术对象类型"
+                header-align="center"
+                align="center"
+                width="120"
+              />
+              <el-table-column
+                prop="s"
+                label="对象类型文本"
+                header-align="center"
+                align="center"
+                width="120"
+              />
+              <el-table-column
+                prop="d"
+                label="主设备标识"
+                header-align="center"
+                align="center"
+                width="100"
+              />
+              <el-table-column
+                prop="f"
+                label="公司代码"
+                header-align="center"
+                align="center"
               />
             </el-table>
             <span
@@ -312,6 +368,7 @@
               <el-button
                 style="border-color: #09b09a"
                 type="primary"
+                size="small"
                 @click="xinjian2()"
               >保存</el-button>
             </span>
@@ -388,7 +445,6 @@
                   >
                     <el-input
                       v-model="bjtwoform.xjf13"
-                      
                     />
                   </el-form-item>
                 </el-col>
@@ -406,7 +462,6 @@
                   >
                     <el-input
                       v-model="bjtwoform.xjf14"
-                    
                     />
                   </el-form-item>
                 </el-col>
@@ -424,7 +479,6 @@
                   >
                     <el-input
                       v-model="bjtwoform.xjf15"
-                    
                     />
                   </el-form-item>
                 </el-col>
@@ -457,7 +511,6 @@
                   >
                     <el-input
                       v-model="bjtwoform.xjf17"
-                    
                     />
                   </el-form-item>
                 </el-col>
@@ -475,7 +528,6 @@
                   >
                     <el-input
                       v-model="bjtwoform.xjf18"
-                     
                     />
                   </el-form-item>
                 </el-col>
@@ -493,7 +545,6 @@
                   >
                     <el-input
                       v-model="bjtwoform.xjf19"
-                    
                     />
                   </el-form-item>
                 </el-col>
@@ -520,6 +571,7 @@
             >
               <el-button
                 type="primary"
+                size="small"
                 @click="xinjian3()"
               >保存</el-button>
             </span>
@@ -698,24 +750,28 @@
         <div class="rs-xuanxiangtwo">
           <el-button
             type="primary"
+            size="small"
             @click="saveForm(bjform)"
           >
             保存
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="settwo=true"
           >
             编辑
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="bd=true"
           >
             绑定实物ID
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="isDelete()"
           >
             删除
@@ -999,7 +1055,7 @@ export default {
     xinjian2 () {
       this.bd = false
     },
-      xinjian3 () {
+    xinjian3 () {
       this.settwo = false
     },
     // 获取页数
@@ -1042,6 +1098,9 @@ export default {
             })
           })
       }
+    },
+    indexMethod (index) {
+      return index + 1
     }
   }
 }
@@ -1104,19 +1163,22 @@ export default {
         left: 0;
       }
       .el-button:nth-child(2) {
+        width: 80px;
         position: absolute;
         top: 15px;
-        left: 80px;
+        left: 70px;
       }
       .el-button:nth-child(3) {
+        width: 92px;
         position: absolute;
         top: 15px;
-        left: 198px;
+        left: 174px;
       }
       .el-button:nth-child(4) {
+        width: 92px;
         position: absolute;
         top: 15px;
-        left: 335px;
+        left: 290px;
       }
     }
     .bangding {
@@ -1253,17 +1315,18 @@ export default {
       .el-button:nth-child(2) {
         position: absolute;
         top: 15px;
-        left: 80px;
+        left: 70px;
       }
       .el-button:nth-child(3) {
+        width: 92px;
         position: absolute;
         top: 15px;
-        left: 170px;
+        left: 150px;
       }
       .el-button:nth-child(4) {
         position: absolute;
         top: 15px;
-        left: 300px;
+        left: 266px;
       }
     }
     .sw-listtwo {

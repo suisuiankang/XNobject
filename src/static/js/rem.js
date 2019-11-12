@@ -1,3 +1,4 @@
+import $ from 'jquery'
 window.onload = function () {
   zsy()
   window.onresize = function () {

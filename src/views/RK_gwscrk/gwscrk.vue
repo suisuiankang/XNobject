@@ -168,20 +168,22 @@
               </el-form-item>
             </el-col>
             <el-col
-              :xl="{span:11,offset:0}"
-              :lg="{span:11,offset:0}"
-              :md="{span:9,offset:0}"
+              :xl="{span:11,offset:1}"
+              :lg="{span:11,offset:1}"
+              :md="{span:9,offset:1}"
               :sm="{span:8,offset:0}"
             >
               <el-form-item class="yfr">
                 <el-button
                   type="primary"
+                  size="small"
                   @click="queryform()"
                 >
                   查询
                 </el-button>
                 <el-button
                   type="primary"
+                  size="small"
                   style="background-color: #fff;color: #606266;border: 1px solid #dcdfe6;"
                   @click="clearForm(),resetForm('yform')"
                 >
@@ -202,24 +204,28 @@
         <div class="gwscrk-xuanxian">
           <el-button
             type="primary"
+            size="small"
             @click="baocun(form)"
           >
             保存
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="guozhang()"
           >
             确认过账
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="isBid()"
           >
             绑定实物ID
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="dayin()"
           >
             打印
@@ -478,7 +484,7 @@
             </el-table>
           </template>
         </div>
-        <div class="block gwscrk_fenye">
+        <div class="gwscrk_fenye">
           <el-pagination
             :page-sizes="[10, 20, 30, 40, 50,100,300]"
             :page-size="20"
@@ -551,9 +557,7 @@ export default {
       iscord: false,
       multipleSelection: [],
       tableHeight: 536,
-      ecHeight: 0,
-      formLabelWidth: '140px',
-      total: 1
+      total: 0
     }
   },
   created () {
@@ -577,7 +581,7 @@ export default {
     const that = this
     window.addEventListener('resize', function () {
       return (() => {
-        that.fff()
+        that.fff() // 回调fff这个方法
       })()
     })
     that.fff()
@@ -634,6 +638,7 @@ export default {
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
+
     // 查询
     queryform () {
       this.$message({
@@ -649,11 +654,13 @@ export default {
         type: 'warning'
       })
     },
+
     // 设置表格高度
     clearForm () {
       this.iscord = false
       this.tableHeight = window.innerHeight - 401
     },
+
     handleSizeChange (val) {
       this.$ajax
         .get(
@@ -730,12 +737,18 @@ export default {
           background-color: #09b09a;
           border: none;
         }
+        .el-button:nth-child(1){
+          width: 56px;
+        }
+        .el-button:nth-child(2){
+          width: 80px;
+        }
 
         .el-input,
         .el-select {
           width: 2.889rem !important;
         }
-/deep/.yfr {
+            /deep/.yfr {
           float: right;
           .el-form-item__content {
             margin-left: 0!important;
@@ -743,21 +756,6 @@ export default {
         }
       }
     }
-    .box-card {
-        box-sizing: border-box;
-        width: 100%;
-        margin: 10px 0 10px;
-        padding: 0 30px !important;
-
-        .el-form {
-          margin: 0 !important;
-
-          .el-date-editor.el-input,
-          .el-date-editor.el-input__inner {
-            width: 190px;
-          }
-        }
-      }
     .gwscrk-bt {
       margin-top: 10px;
       background-color: #fff;
@@ -787,21 +785,25 @@ export default {
           position: absolute;
           top: 15px;
           left: 0;
+          width: 56px;
         }
         .el-button:nth-child(2) {
           position: absolute;
           top: 15px;
-          left: 90px;
+          left: 70px;
+          width: 80px;
         }
          .el-button:nth-child(3) {
           position: absolute;
           top: 15px;
-          left: 210px;
+          left: 170px;
+          width: 92px;
         }
          .el-button:nth-child(4) {
           position: absolute;
           top: 15px;
-          left: 350px;
+          left: 282px;
+          width: 56px;
         }
       }
       .gwscrk-xj {

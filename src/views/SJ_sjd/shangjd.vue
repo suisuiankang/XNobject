@@ -117,12 +117,14 @@
               <el-form-item style="float: right;">
                 <el-button
                   type="primary"
+                  size="small"
                   @click="qureySform(sjform)"
                 >
                   查询
                 </el-button>
                 <el-button
                   type="primary"
+                  size="small"
                   style="background-color: #fff;color: #606266;border: 1px solid #dcdfe6;"
                   @click="resetForm('sjform')"
                 >
@@ -145,24 +147,28 @@
         <div class="sjd-xuanxian">
           <el-button
             type="primary"
+            size="small"
             @click="baocun"
           >
             保存
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="setEdit()"
           >
             编辑
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="cheakBa()"
           >
             确认验收
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="bindingID()"
           >
             绑定实物ID
@@ -293,6 +299,7 @@
           >
             <el-button
               type="primary"
+              size="small"
               @click="preservationBd"
             >保存</el-button>
           </span>
@@ -629,6 +636,7 @@
             >
               <el-button
                 type="primary"
+                size="small"
                 @click="submitForm('edform')"
               >保存</el-button>
             </span>
@@ -1200,6 +1208,9 @@ export default {
           background-color: #09b09a;
           border: none;
         }
+        .el-button:nth-child(2) {
+          width: 80px;
+        }
 
         .el-input,
         .el-select {
@@ -1240,17 +1251,19 @@ export default {
         .el-button:nth-child(2) {
           position: absolute;
           top: 15px;
-          left: 80px;
+          left: 70px;
         }
         .el-button:nth-child(3) {
+          width: 80px;
           position: absolute;
           top: 15px;
-          left: 170px;
+          left: 150px;
         }
         .el-button:nth-child(4) {
+          width: 92px;
           position: absolute;
           top: 15px;
-          left: 290px;
+          left: 254px;
         }
       }
       .sjd_ID {

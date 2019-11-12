@@ -131,19 +131,24 @@
             </el-col>
 
             <el-col
-              :xl="{span:11,offset:6}"
+              :xl="{span:11,offset:7}"
               :lg="{span:11,offset:6}"
               :md="{span:9,offset:7}"
               :sm="{span:9,offset:7}"
             >
-              <el-form-item style="float: right;">
+              <el-form-item
+                style="float: right;"
+                class="ad"
+              >
                 <el-button
+                  size="small"
                   type="primary"
                   @click="queryForm(mForm)"
                 >
                   查询
                 </el-button>
                 <el-button
+                  size="small"
                   type="primary"
                   style="background-color: #fff;color: #606266;border: 1px solid #dcdfe6;"
                   @click="restForm('mForm')"
@@ -166,6 +171,7 @@
         </div>
         <div class="jjcx-xuanxian">
           <el-button
+          size="small"
             type="primary"
             @click="qxForm()"
           >
@@ -836,9 +842,17 @@ export default {
         box-sizing: border-box;
         padding: 14px 0 0 40px;
 
-        .el-button {
-          background-color: #09b09a;
+       .el-button {
+          background-color: #09b09a ;
           border: none;
+        }
+       /deep/ .el-button:nth-child(1) {
+          width: 56px;
+
+        }
+         /deep/ .el-button:nth-child(2) {
+          width: 80px;
+
         }
 
         .el-input,
@@ -876,22 +890,9 @@ export default {
           position: absolute;
           top: 15px;
           left: 0;
+          width: 80px;
         }
-        .el-button:nth-child(2) {
-          position: absolute;
-          top: 15px;
-          left: 80px;
-        }
-        .el-button:nth-child(3) {
-          position: absolute;
-          top: 15px;
-          left: 170px;
-        }
-        .el-button:nth-child(4) {
-          position: absolute;
-          top: 15px;
-          left: 290px;
-        }
+
       }
       .jjcx-xj {
         /deep/ .el-dialog {
@@ -924,8 +925,9 @@ export default {
                 left: -30px;
                 background-color: #09b09a;
                 border: none;
-              }
+              }             
             }
+            
           }
           .el-form-item__error {
             width: 180px;

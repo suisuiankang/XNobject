@@ -1,8 +1,8 @@
 <template>
   <el-container>
     <el-main>
-      <div class="kchd-top">
-        <div class="kchd-wz">
+      <div class="gcjy-top">
+        <div class="gcjy-wz">
           <img
             src="../../static/images/Ticon.png"
             alt
@@ -11,7 +11,7 @@
             <el-breadcrumb-item :to="{ path: '/' }">
               首页
             </el-breadcrumb-item>
-            <el-breadcrumb-item>库存核对</el-breadcrumb-item>
+            <el-breadcrumb-item>移库单</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <el-form
@@ -30,7 +30,7 @@
               :sm="{span:8,offset:0}"
             >
               <el-form-item
-                label="物料编码:"
+                label="移库计划号:"
                 prop="wlbm"
               >
                 <el-input
@@ -45,10 +45,12 @@
               :sm="{span:8,offset:0}"
             >
               <el-form-item
-                label="工厂:"
+                label="优先级:"
                 prop="factory"
               >
-                <el-input v-model="hdform.factory" />
+                <el-select
+                  v-model="hdform.factory"
+                />
               </el-form-item>
             </el-col>
             <el-col
@@ -58,13 +60,11 @@
               :sm="{span:8,offset:0}"
             >
               <el-form-item
-                label="库存地点:"
+                label="当前状态:"
                 prop="stock"
               >
                 <el-select
                   v-model="hdform.stock"
-
-                  placeholder
                 />
               </el-form-item>
             </el-col>
@@ -77,10 +77,12 @@
               :sm="{span:8,offset:0}"
             >
               <el-form-item
-                label="批次:"
+                label="工厂:"
                 prop="batch"
               >
-                <el-input v-model="hdform.batch " />
+                <el-select
+                  v-model="hdform.batch"
+                />
               </el-form-item>
             </el-col>
             <el-col
@@ -90,13 +92,11 @@
               :sm="{span:8,offset:0}"
             >
               <el-form-item
-                label="是否处理:"
+                label="库存地点:"
                 prop="handle"
               >
                 <el-select
                   v-model="hdform.handle"
-
-                  placeholder
                 />
               </el-form-item>
             </el-col>
@@ -110,7 +110,6 @@
                 <el-button
                   type="primary"
                   size="small"
-                  @click="qureySform"
                 >
                   查询
                 </el-button>
@@ -118,7 +117,6 @@
                   type="primary"
                   size="small"
                   style="background-color: #fff;color: #606266;border: 1px solid #dcdfe6;"
-                  @click="restForm('hdform')"
                 >
                   清除条件
                 </el-button>
@@ -127,63 +125,58 @@
           </el-row>
         </el-form>
       </div>
-      <div class="kchd-bt">
-        <div class="kchd-jg">
+      <div class="gcjy-bt">
+        <div class="gcjy-jg">
           <img
             src="../../static/images/bicon.png"
             alt
           >
           查询结果
         </div>
-        <div class="kchd-xuanxian">
+        <div class="gcjy-xuanxiane">
           <el-button
             type="primary"
             size="small"
-            @click="isDifference"
+            @click="isBuild=true"
           >
-            处理差异
+            新增
           </el-button>
           <el-button
             type="primary"
             size="small"
-            @click="isVoucher"
+            @click="isPosting()"
           >
-            触发凭证核对
+            编辑
           </el-button>
           <el-button
             type="primary"
             size="small"
-            @click="isInventory=true"
+            @click="release"
           >
-            手动库存核对
+            发布移库单
           </el-button>
           <el-button
             type="primary"
             size="small"
+            @click="isDelete()"
           >
-            数据拆分
-          </el-button>
-          <el-button
-            type="primary"
-            size="small"
-          >
-            数据删除
+            作废
           </el-button>
         </div>
-        <div class="kchd-xj">
+        <div class="gcjy-xj">
           <el-dialog
-            title="库存核对"
-            :visible.sync="isInventory"
+            title="表单填写"
+            :visible.sync="isBuild"
             width="40%"
             center
           >
             <el-form
-              ref="iyform"
+              ref="xjform"
               :rules="rules"
-              class="iyform"
+              class="xjform"
               label-width="120px"
               size="mini"
-              :model="iyform"
+              :model="xjform"
             >
               <el-row>
                 <el-col
@@ -197,8 +190,8 @@
                     prop="xjf1"
                   >
                     <el-select
-                      v-model="iyform.xjf1"
-                      placeholder="请选择"
+                      v-model="xjform.xjf1"
+                      placeholder="222"
                     />
                   </el-form-item>
                 </el-col>
@@ -215,8 +208,8 @@
                     prop="xjf2"
                   >
                     <el-input
-                      v-model="iyform.xjf2"
-                      :disabled="true"
+                      v-model="xjform.xjf2"
+                      placeholder="工程结余物资退库"
                     />
                   </el-form-item>
                 </el-col>
@@ -233,8 +226,8 @@
                     prop="xjf3"
                   >
                     <el-select
-                      v-model="iyform.xjf3"
-                      placeholder="请选择"
+                      v-model="xjform.xjf3"
+                      placeholder="Q"
                     />
                   </el-form-item>
                 </el-col>
@@ -251,7 +244,7 @@
                     prop="xjf4"
                   >
                     <el-date-picker
-                      v-model="iyform.xjf4"
+                      v-model="xjform.xjf4"
                       type="date"
                       placeholder="选择日期"
                       format="yyyy 年 MM 月 dd 日"
@@ -272,46 +265,11 @@
                     prop="xjf5"
                   >
                     <el-date-picker
-                      v-model="iyform.xjf5"
+                      v-model="xjform.xjf5"
                       type="date"
                       placeholder="选择日期"
                       format="yyyy 年 MM 月 dd 日"
                       value-format="yyyy-MM-dd"
-                    />
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col
-                  :xl="{span:20,offset:4}"
-                  :lg="{span:20,offset:3}"
-                  :md="{span:20,offset:1}"
-                  :sm="{span:22,offset:0}"
-                >
-                  <el-form-item
-                    label="凭证抬头文本:"
-                    prop="xjf6"
-                  >
-                    <el-input
-                      v-model="iyform.xjf6"
-                    />
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col
-                  :xl="{span:20,offset:4}"
-                  :lg="{span:20,offset:3}"
-                  :md="{span:20,offset:1}"
-                  :sm="{span:22,offset:0}"
-                >
-                  <el-form-item
-                    label="数据来源:"
-                    prop="xjf7"
-                  >
-                    <el-input
-                      v-model="iyform.xjf7"
-                      :disabled="true"
                     />
                   </el-form-item>
                 </el-col>
@@ -324,10 +282,11 @@
               <el-button
                 type="primary"
                 size="small"
+                @click="clickButtone(xjform)"
               >保存</el-button>
             </span>
           </el-dialog>
-          <!-- <el-dialog
+          <el-dialog
             title="表单编辑"
             :visible.sync="isEdit"
             width="40%"
@@ -651,23 +610,31 @@
             >
               <el-button
                 type="primary"
-                @click="submitForm('edform');clickButton(edform)"
+                size="small"
+                @click="clickButtonr(edform)"
               >保存</el-button>
             </span>
-          </el-dialog> -->
+          </el-dialog>
         </div>
-        <div class="sw-list">
+        <div class="sw-liste">
           <template>
             <el-table
               :max-height="tableHeight"
               tooltip-effect="dark"
               style="width: 100%"
-              :data="tabkdData"
+              :data="tabteData"
               :header-cell-style="{background:'#edf5f2'}"
               @selection-change="handleSelectionChange"
             >
               <el-table-column
-                fixed
+                header-align="center"
+                align="center"
+                label="序号"
+                type="index"
+                :index="indexMethod"
+                width="55"
+              />
+              <el-table-column
                 style="border-right: 1px solid #ccc;"
                 type="selection"
                 width="55"
@@ -675,15 +642,15 @@
               <el-table-column
                 header-align="center"
                 prop="ext4"
-                label="业务类型"
-                width="80"
+                label="移库计划号"
+                width="140"
                 align="center"
               />
               <el-table-column
                 header-align="center"
                 :show-overflow-tooltip="true"
                 prop="supplyplancode"
-                label="工厂编号"
+                label="当前状态"
                 width="80"
                 align="center"
               />
@@ -691,161 +658,275 @@
                 header-align="center"
                 align="center"
                 prop="ebeln"
-                label="工厂名称"
+                label="移库类别"
                 width="80"
               />
               <el-table-column
                 header-align="center"
                 align="center"
                 prop="ebelp"
+                label="优先级"
+                width="80"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                prop="matnr"
+                label="工厂"
+                width="60"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                :show-overflow-tooltip="true"
+                prop="maktx"
                 label="库存地点"
                 width="80"
               />
               <el-table-column
                 header-align="center"
                 align="center"
-                prop="zsjdhsl"
-                label="库存描述"
-                width="80"
+                prop="zjjsl"
+                label="计划开始时间"
+                width="120"
               />
               <el-table-column
                 header-align="center"
                 align="center"
-                :show-overflow-tooltip="true"
+                prop="menge"
+                label="计划结束时间"
+                width="120"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                prop="meins"
+                label="备注"
+                width="60"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
                 prop="werks"
-                label="物料编码"
+                label="创建者"
                 width="80"
               />
               <el-table-column
                 header-align="center"
                 align="center"
-                prop="werksdescription"
-                label="物料描述"
+                prop="werks"
+                label="创建时间"
                 width="80"
               />
               <el-table-column
                 header-align="center"
                 align="center"
-                prop="lgort"
-                label="特殊库存"
-                width="80"
-              />
-              <el-table-column
-                header-align="center"
-                align="center"
-                prop="lgortdescription"
-                label="WBS元素"
+                prop="werks"
+                label="最后编辑者"
                 width="100"
               />
               <el-table-column
                 header-align="center"
                 align="center"
-                prop="pstngDate"
-                label="供应商"
-                width="80"
-              />
-              <el-table-column
-                header-align="center"
-                prop="blart"
-                label="批次"
-                width="80"
-                align="center"
-              />
-              <el-table-column
-                header-align="center"
-                :show-overflow-tooltip="true"
-                prop="bwart"
-                label="WMS非限制库存"
-                width="180"
+                prop="werks"
+                label="最后编辑时间"
+                width="120"
               />
               <el-table-column
                 header-align="center"
                 align="center"
-                prop="zwzgygsqz"
-                label="ERP非限制库存差异"
-                width="200"
+                prop="werks"
+                label="APP移库标识"
+                width="140"
               />
-              <el-table-column
-                header-align="center"
-                :show-overflow-tooltip="true"
-                prop="zwzgygssj"
-                label="ERP非限制金额"
-                width="160"
-              />
-              <el-table-column
-                header-align="center"
-                :show-overflow-tooltip="true"
-                prop="zqmdwjsrqz"
-                label="WMS质量检测库存"
-                width="180"
-              />
-              <el-table-column
-                header-align="center"
-                :show-overflow-tooltip="true"
-                prop="zqmdwjsrsj"
-                label="ERP质量检测库存差异"
-                width="220"
-              />
-              <el-table-column
-                header-align="center"
-                align="center"
-                prop="zgysjfrqz"
-                label="WMS已冻结库存"
-                width="160"
-              />
-              <el-table-column
-                header-align="center"
-                align="center"
-                prop="zgysjfrsj"
-                label="ERP已冻结库存差异"
-                width="200"
-              />
-              <el-table-column
-                header-align="center"
-                align="center"
-                prop="zjldwrqz"
-                label="ERP已冻结金额"
-                width="160"
-              />
-              <el-table-column
-                header-align="center"
-                align="center"
-                prop="zjldwrsj"
-                label="计量单位"
-                width="80"
-              />
-              <el-table-column
-                header-align="center"
-                align="center"
-                prop="zsgdwrqz"
-                label="创建日期"
-                width="80"
-              />
-              <el-table-column
-                header-align="center"
-                align="center"
-                prop="zsgdwrsj"
-                label="是否处理"
-                width="80"
-              />
-              <el-table-column
-                header-align="center"
-                align="center"
-                prop="carrlinkman"
-                label="处理人"
-                width="80"
-              />
-              <el-table-column
-                header-align="center"
-                align="center"
-                prop="carrlinkmantelep"
-                label="处理时间"
-                width="80"
-              />
+              <el-table-column />
             </el-table>
           </template>
         </div>
-        <div class="block kchd_fenye">
+        <div class="block sw-fye">
+          <el-pagination
+            :page-sizes="[10, 20, 30, 40, 50,100,300]"
+            :page-size="20"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          />
+        </div>
+        <div class="gcjy-xuanxianr">
+          <el-button
+            type="primary"
+            size="small"
+            @click="isBuildr()"
+          >
+            新增
+          </el-button>
+          <el-button
+            type="primary"
+            size="small"
+            @click="isbjr()"
+          >
+            编辑
+          </el-button>
+          <el-button
+            type="primary"
+            size="small"
+            @click="isDeleter()"
+          >
+            删除
+          </el-button>
+        </div>
+        <el-form
+          ref="mForm"
+          class="mForm"
+          label-width="100px"
+          min-width="800px"
+          size="mini"
+          :model="mForm"
+        >
+          <el-row>
+            <el-col
+              :xl="{span:6,offset:0}"
+              :lg="{span:6,offset:0}"
+              :md="{span:7,offset:0}"
+              :sm="{span:8,offset:0}"
+            >
+              <el-form-item
+                label="物料编码:"
+                prop="ebeln"
+              >
+                <el-input v-model="mForm.ebeln" />
+              </el-form-item>
+            </el-col>
+
+            <el-col
+              class="marf"
+              :xl="{span:4}"
+              :lg="{span:5}"
+              :md="{span:6}"
+              :sm="{span:7}"
+            >
+              <el-form-item style="float: right;">
+                <el-button
+                  type="primary"
+                  size="small"
+                >
+                  查询
+                </el-button>
+                <el-button
+                  type="primary"
+                  size="small"
+                  style="background-color: #fff;color: #606266;border: 1px solid #dcdfe6;"
+                >
+                  清除条件
+                </el-button>
+                <!-- resetFields -->
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <div class="sw-listr">
+          <template>
+            <el-table
+              :max-height="tableHeight"
+              tooltip-effect="dark"
+              style="width: 100%"
+              :data="tabtrData"
+              :header-cell-style="{background:'#edf5f2'}"
+              @selection-change="handleSelectionChanger"
+            >
+              <el-table-column
+                header-align="center"
+                align="center"
+                label="序号"
+                type="index"
+                :index="indexMethod"
+                width="55"
+              />
+              <el-table-column
+                style="border-right: 1px solid #ccc;"
+                type="selection"
+                width="55"
+              />
+              <el-table-column
+                header-align="center"
+                ext4
+                prop="ext4"
+                label="移库原始储位"
+                width="140"
+                align="center"
+              />
+              <el-table-column
+                header-align="center"
+                :show-overflow-tooltip="true"
+                prop="supplyplancode"
+                label="移库目标储位 "
+                width="140"
+                align="center"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                prop="ebeln"
+                label="物料编码"
+                width="100"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                prop="ebelp"
+                label="物料描述"
+                width="100"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                :show-overflow-tooltip="true"
+                prop="maktx"
+                label="计量单位"
+                width="100"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                prop="zjjsl"
+                label="非限制数量"
+                width="140"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                prop="menge"
+                label="批次"
+                width="80"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                prop="meins"
+                label="WBS元素"
+                width="120"
+              />
+              <el-table-column
+                header-align="center"
+                align="center"
+                prop="werks"
+                label="供应商"
+                width="100"
+              />
+              <el-table-column
+                header-align="center"
+
+                prop="werksdescription"
+                label="移库个数"
+                width="120"
+                align="center"
+              />
+              <el-table-column />
+            </el-table>
+          </template>
+        </div>
+        <div class="block sw-fyr">
           <el-pagination
             :page-sizes="[10, 20, 30, 40, 50,100,300]"
             :page-size="20"
@@ -864,18 +945,23 @@
 export default {
   data () {
     return {
-      rules: {
-        cwh: [
-          { required: true, message: '请选择目标储位号', trigger: 'change' }
-        ],
-        shsl: [
-          {
-            type: 'string',
-            required: true,
-            message: '请输入上货数量',
-            trigger: 'blur'
-          }
-        ]
+      xjform: {
+        xjf1: '',
+        xjf2: '',
+        xjf3: '',
+        xjf4: '',
+        xjf5: '',
+        xjf6: '',
+        xjf7: ''
+      },
+      mForm: {
+        supplyplancode: '',
+        mblnr: '',
+        gjahr: '',
+        bukrs: '',
+        werks: '',
+        lgort: '',
+        ebeln: ''
       },
       hdform: {
         wlbm: '',
@@ -885,16 +971,9 @@ export default {
         batch: '',
         handle: ''
       },
-      iyform: {
-        xjf1: '',
-        xjf2: '',
-        xjf3: '',
-        xjf4: '',
-        xjf5: '',
-        xjf6: '',
-        xjf7: ''
-      },
-      cform: {
+      edform: {
+        cwh: '',
+        shsl: '',
         supplyplancode: '',
         ebeln: '',
         werks: '',
@@ -904,54 +983,126 @@ export default {
         ks_pstngDate: '',
         js_pstngDate: ''
       },
-      tabkdData: [
+      rules: {
+        xjf1: [
+          { required: true, message: '移动类型:值不能为空', trigger: 'change' }
+        ],
+        xjf2: [
+          { required: true, message: '移动类型描述:值不能为空', trigger: 'change' }
+        ],
+        xjf4: [
+          { required: true, message: '过帐日期:值不能为空', trigger: 'change' }
+        ],
+        xjf5: [
+          { required: true, message: '凭证日期:值不能为空', trigger: 'change' }
+        ],
+        xjf7: [
+          { required: true, message: '数据来源:值不能为空', trigger: 'change' }
+        ]
+      },
+      sjform: {
+        supplyplancode: '',
+        ebeln: '',
+        werks: '',
+        mblnr: '',
+        gjahr: '',
+        lgort: '',
+        ks_pstngDate: '',
+        js_pstngDate: ''
+      },
+      tabteData: [
         {
-          ext4: '入库',
-          supplyplancode: '0',
-          ebeln: '0',
-          ebelp: '0',
-          zsjdhsl: '0',
-          werks: '0',
-          werksdescription: '0',
-          lgort: '0',
-          lgortdescription: '0',
-          pstngDate: '',
-          blart: '',
-          bwart: '',
-          zwzgygsqz: '',
-          zwzgygssj: '',
-          zqmdwjsrqz: '',
-          zqmdwjsrsj: '',
-          zgysjfrqz: '',
-          zgysjfrsj: '',
-          zjldwrqz: '',
-          zjldwrsj: '',
-          zsgdwrqz: '',
-          zsgdwrsj: '',
-          carrlinkman: '',
-          carrlinkmantelep: '',
-          zjdhq: '',
-          zyjfhq: '',
-          eindt: '',
-          zhtzs: '',
-          zthsl: '',
-          zbczcs: '',
-          zbchhsl: '',
-          remark: '',
-          posid: '',
-          post1Wbs: '',
-          zxmdw: '',
-          matnr: '',
-          maktx: '',
-          bukrs: '',
-          bukrsdescription: '',
-          meins: '',
-          username: '',
-          zsjjhq: '',
-          msgcode: '',
-          msgdesp: '',
-          mblnr: '',
-          gjahr: ''
+          ext4: '已处理',
+          supplyplancode: '1',
+          ebeln: '2',
+          ebelp: '3',
+          matnr: '4',
+          maktx: '5',
+          zjjsl: '6',
+          menge: '7',
+          meins: '8',
+          werks: '9',
+          werksdescription: '10',
+          posid: '1',
+          psphi: '2',
+          xmpost1: '3',
+          pratx: '4',
+          zhtbh: '5',
+          zxmdw: '6',
+          username: '7',
+          zfhfqz: '8',
+          zfhfsj: '9',
+          zshfqz: '10',
+          zshfsj: '11',
+          zsjjhq: '12',
+          actualdeliverypl: '13',
+          remark: '14',
+          pstngDate: '15',
+          blart: '16',
+          bwart: '17',
+          bukrs: '18',
+          bukrsdescription: '19',
+          zyjfhq: '20',
+          eindt: '21',
+          suppliername: '22',
+          supplinkman: '23',
+          supplinkmantelep: '24',
+          carrlinkman: '25',
+          carrlinkmantelep: '26',
+          delinkman: '27',
+          delinkmantelepho: '28',
+          msgcode: '29',
+          msgdesp: '30',
+          mblnr: '31',
+          gjahr: '32'
+        }
+
+      ],
+      tabtrData: [
+        {
+          ext4: '已处理',
+          supplyplancode: '1',
+          ebeln: '2',
+          ebelp: '3',
+          matnr: '4',
+          maktx: '5',
+          zjjsl: '6',
+          menge: '7',
+          meins: '8',
+          werks: '9',
+          werksdescription: '10',
+          posid: '1',
+          psphi: '2',
+          xmpost1: '3',
+          pratx: '4',
+          zhtbh: '5',
+          zxmdw: '6',
+          username: '7',
+          zfhfqz: '8',
+          zfhfsj: '9',
+          zshfqz: '10',
+          zshfsj: '11',
+          zsjjhq: '12',
+          actualdeliverypl: '13',
+          remark: '14',
+          pstngDate: '15',
+          blart: '16',
+          bwart: '17',
+          bukrs: '18',
+          bukrsdescription: '19',
+          zyjfhq: '20',
+          eindt: '21',
+          suppliername: '22',
+          supplinkman: '23',
+          supplinkmantelep: '24',
+          carrlinkman: '25',
+          carrlinkmantelep: '26',
+          delinkman: '27',
+          delinkmantelepho: '28',
+          msgcode: '29',
+          msgdesp: '30',
+          mblnr: '31',
+          gjahr: '32'
         }
       ],
       editForm: {
@@ -966,16 +1117,18 @@ export default {
         remark: ''
       },
       multipleSelection: [],
-      tableHeight: 536,
-      isInventory: false,
-      ecHeight: 0,
+      multipleSelectionr: [],
+      isBuild: false,
+      isEdit: false,
+      // eslint-disable-next-line no-undef
+      tableHeight: 300,
       formLabelWidth: '140px',
       total: 1
     }
   },
   created () {
   },
-  mounted () {
+  mounted: function () {
     const that = this
     window.addEventListener('resize', function () {
       return (() => {
@@ -985,38 +1138,96 @@ export default {
     that.fff()
   },
   methods: {
+    //   删除r
+    isDeleter () {
+      // eslint-disable-next-line eqeqeq
+      if (this.multipleSelection.length == 0) {
+        this.$message({
+          message: '未选中删除内容',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '当前状态不能删除',
+          type: 'warning'
+        })
+      }
+    },
+    // 编辑r
+    isbjr () {
+      // eslint-disable-next-line eqeqeq
+      if (this.multipleSelection.length == 0) {
+        this.$message({
+          message: '未选中编辑内容',
+          type: 'warning'
+        })
+      } else if (this.multipleSelection.length >= 2) {
+        this.$message({
+          message: '选定的记录条数不能超过一条',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '当前状态不可以编辑。',
+          type: 'warning'
+        })
+      }
+    },
+    // 新增r
+    isBuildr () {
+      // eslint-disable-next-line eqeqeq
+      if (this.multipleSelection.length == 0) {
+        this.$message({
+          message: '请选中上方列表具体数据',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '只能新增未处理数据',
+          type: 'warning'
+        })
+      }
+    },
     // 实时获取高度
     fff () {
       let _this = this
       _this.$nextTick(function () {
-        _this.tableHeight = window.innerHeight - 401
+        _this.tableHeight = (window.innerHeight - 544) / 2
         // 监听窗口大小变化
         let self = _this
         window.onresize = function () {
-          self.tableHeight = window.innerHeight - 401
+          self.tableHeight = (window.innerHeight - 544) / 2
         }
       })
     },
-    // 触发凭证核对
-    isVoucher () {
-      this.$confirm('确认触发凭证核对?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
+    // 删除
+    isDelete () {
+      // eslint-disable-next-line eqeqeq
+      if (this.multipleSelection.length == 0) {
         this.$message({
-          type: 'success',
-          message: '处理成功!'
+          message: '未选中作废内容',
+          type: 'warning'
         })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '处理失败'
+      } else {
+        this.$confirm('此操作将永久作废该数据, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
         })
-      })
+      }
     },
-    // 处理差异
-    isDifference () {
+    // 编辑
+    isPosting () {
       // eslint-disable-next-line eqeqeq
       if (this.multipleSelection.length == 0) {
         this.$message({
@@ -1024,15 +1235,32 @@ export default {
           type: 'warning'
         })
       } else {
-        console.info(this.multipleSelection)
+        this.isEdit = true
+      }
+    },
+    //
+    release () {
+      // eslint-disable-next-line eqeqeq
+      if (this.multipleSelection.length == 0) {
         this.$message({
-          message: '数据不存在，不可进行操作',
+          message: '请至少选中一条记录',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '明细数据不存在，不可以进行发布',
           type: 'warning'
         })
       }
     },
-    // 保存提交
-    clickButton (from) {
+    // 新建保存提交e
+    clickButtone (from) {
+      this.isBuild = false
+      console.log(from.shsl, '10')
+    },
+    // 编辑保存提交e
+    clickButtonr (from) {
+      this.isEdit = false
       console.log(from.shsl, '10')
     },
     // 保存验证
@@ -1047,30 +1275,9 @@ export default {
         }
       })
     },
-    // 查询
-    qureySform () {
-      this.$message({
-        message: '暂无数据',
-        type: 'warning'
-      })
-    },
-    // 重置
-    restForm (form) {
-      this.$nextTick(() => {
-        this.$refs[form].resetFields()
-      })
-    },
-    // 数据获取
-    getkchd () {
-      this.$ajax
-        .get(
-          `/tblkchd/?rnd=571502057613169&params={"columns":"wid,ext4,supplyplancode,ebeln,ebelp,zsjdhsl,werks,werksdescription,lgort,lgortdescription,pstngDate,blart,bwart,zwzgygsqz,zwzgygssj,zqmdwjsrqz,zqmdwjsrsj,zgysjfrqz,zgysjfrsj,zjldwrqz,zjldwrsj,zsgdwrqz,zsgdwrsj,carrlinkman,carrlinkmantelep,zjdhq,zyjfhq,eindt,zhtzs,zthsl,zbczcs,zbchhsl,remark,posid,post1Wbs,zxmdw,matnr,maktx,bukrs,bukrsdescription,meins,username,zsjjhq,msgcode,msgdesp,mblnr,gjahr","sorter":"zcsxh DESC","pageIndex":1,"pageSize":20}`
-        )
-        .then(res => {
-          console.log(res.data.resultValue)
-          this.total = res.data.resultValue.itemCount
-          this.tabkdData = res.data.resultValue.items
-        })
+    // 序号索引
+    indexMethod (index) {
+      return index * 1
     },
     handleSizeChange (val) {
       // this.$ajax
@@ -1097,6 +1304,10 @@ export default {
     // 保存选中结果
     handleSelectionChange (val) {
       this.multipleSelection = val
+      //   console.info(this.multipleSelection, 1);
+    },
+    handleSelectionChanger (val) {
+      this.multipleSelectionr = val
       //   console.info(this.multipleSelection, 1);
     },
     // 对话框关闭
@@ -1126,16 +1337,16 @@ export default {
   .el-main {
     padding: 10px;
     overflow-y: hidden;
-    .kchd-top {
+    .gcjy-top {
       padding: 10px;
       background-color: #fff;
 
-      .kchd-wz {
+      .gcjy-wz {
         position: relative;
-        padding: 10px 10px 0 30px;
+        padding: 2px 10px 0 30px;
         img {
           position: absolute;
-          top: 8px;
+          top: 0;
           left: 0;
         }
       }
@@ -1151,6 +1362,7 @@ export default {
         .el-button:nth-child(2) {
           width: 80px;
         }
+
         .el-input,
         .el-select {
           width: 2.889rem !important;
@@ -1163,26 +1375,11 @@ export default {
         }
       }
     }
-    .box-card {
-        box-sizing: border-box;
-        width: 100%;
-        margin: 10px 0 10px;
-        padding: 0 30px !important;
-
-        .el-form {
-          margin: 0 !important;
-
-          .el-date-editor.el-input,
-          .el-date-editor.el-input__inner {
-            width: 190px;
-          }
-        }
-      }
-    .kchd-bt {
+    .gcjy-bt {
       margin-top: 10px;
       background-color: #fff;
       padding: 10px;
-      .kchd-jg {
+      .gcjy-jg {
         position: relative;
         padding: 6px 10px 0 30px;
         font-size: 18px;
@@ -1193,7 +1390,7 @@ export default {
           left: 0;
         }
       }
-      .kchd-xuanxian {
+      .gcjy-xuanxiane {
         position: relative;
         box-sizing: border-box;
         width: 100%;
@@ -1204,76 +1401,28 @@ export default {
         }
 
         .el-button:nth-child(1) {
-          width: 80px;
           position: absolute;
           top: 15px;
           left: 0;
         }
         .el-button:nth-child(2) {
-          width: 102px;
           position: absolute;
           top: 15px;
-          left: 94px;
+          left: 70px;
         }
         .el-button:nth-child(3) {
-          width: 102px;
+          width: 92px;
           position: absolute;
           top: 15px;
-          left: 220px;
+          left: 150px;
         }
         .el-button:nth-child(4) {
-          width: 80px;
           position: absolute;
           top: 15px;
-          left: 346px;
-        }
-        .el-button:nth-child(5) {
-          width: 80px;
-          position: absolute;
-          top: 15px;
-          left: 450px;
+          left: 266px;
         }
       }
-      .kchd-xj {
-        /deep/ .el-dialog {
-          .el-dialog__header {
-            padding: 0;
-            height: 50px !important;
-            line-height: 30px;
-            .el-dialog__title {
-              position: absolute;
-              top: 10px;
-              left: 48%;
-            }
-          }
-          .edform {
-            /* .el-input {
-                width: 200px!important;
-              } */
-            .el-input__inner {
-              width: 180px;
-            }
-          }
-          .el-dialog__footer {
-            padding: 0;
-            height: 50px !important;
-            .dialog-footer {
-              position: relative;
-
-              .el-button {
-                position: absolute;
-                left: -30px;
-                background-color: #09b09a;
-                border: none;
-              }
-            }
-          }
-          .el-form-item__error {
-            width: 180px;
-          }
-        }
-      }
-      .tzd-xj {
+      .gcjy-xj {
         /deep/ .el-dialog {
           width: 35%!important;
           .el-dialog__header {
@@ -1287,7 +1436,7 @@ export default {
           .el-dialog__body {
               padding-top: 40px;
           }
-          .iyform {
+          .xjform {
             .el-input__inner {
               width: 2.8rem;
             }
@@ -1309,9 +1458,14 @@ export default {
           .el-form-item__error {
             width: 180px;
           }
+          .edform {
+            .el-input__inner {
+              width: 1.8rem;
+            }
+          }
         }
       }
-      .sw-list {
+      .sw-liste {
         /* height: 4.16rem; */
         /deep/.el-checkbox {
           .el-checkbox__input.is-checked .el-checkbox__inner,
@@ -1340,7 +1494,94 @@ export default {
           height: 100%;
         }
       }
-      .kchd_fenye {
+      .sw-fye {
+        position: relative;
+        height: 36px !important;
+        margin-top: 20px;
+        .el-pagination {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          height: 34px !important;
+        }
+      }
+      .gcjy-xuanxianr {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        height: 64px;
+        .el-button {
+          background-color: #09b09a;
+          border: none;
+        }
+
+        .el-button:nth-child(1) {
+          position: absolute;
+          top: 15px;
+          left: 0;
+        }
+        .el-button:nth-child(2) {
+          position: absolute;
+          top: 15px;
+          left: 70px;
+        }
+        .el-button:nth-child(3) {
+          position: absolute;
+          top: 15px;
+          left: 150px;
+        }
+      }
+      .mForm {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px 0 0 40px;
+
+        .el-button {
+          background-color: #09b09a;
+          border: none;
+        }
+
+        .el-input,
+        .el-select {
+          width: 2.889rem !important;
+        }
+        .el-button:nth-child(2) {
+          width: 80px;
+        }
+        /deep/.el-form-item__content {
+          margin-left: 0!important;
+        }
+      }
+      .sw-listr {
+        /* height: 4.16rem; */
+        /deep/.el-checkbox {
+          .el-checkbox__input.is-checked .el-checkbox__inner,
+          .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+            background-color: #09b09a;
+            border-color: #09b09a;
+          }
+          .el-checkbox__input.is-checked .el-checkbox__inner,
+          .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+            background-color: #09b09a;
+            border-color: #09b09a;
+          }
+          .el-checkbox__input.is-checked .el-checkbox__inner,
+          .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+            background-color: #09b09a;
+            border-color: #09b09a;
+          }
+          .el-checkbox__inner:hover {
+            border-color: #09b09a;
+          }
+          .el-checkbox__input.is-focus .el-checkbox__inner {
+            border-color: #09b09a;
+          }
+        }
+        .el-table {
+          height: 100%;
+        }
+      }
+      .sw-fyr {
         position: relative;
         height: 36px !important;
         margin-top: 20px;

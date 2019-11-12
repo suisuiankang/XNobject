@@ -131,6 +131,7 @@
               </el-form-item>
             </el-col>
             <el-col
+              class="marf"
               :xl="{span:11,offset:6}"
               :lg="{span:11,offset:6}"
               :md="{span:9,offset:7}"
@@ -139,12 +140,14 @@
               <el-form-item style="float: right;">
                 <el-button
                   type="primary"
+                  size="small"
                   @click="qureySform(ycform)"
                 >
                   查询
                 </el-button>
                 <el-button
                   type="primary"
+                  size="small"
                   style="background-color: #fff;color: #606266;border: 1px solid #dcdfe6;"
                   @click="resetForm('ycform')"
                 >
@@ -166,6 +169,7 @@
         <div class="yscx-xuanxian">
           <el-button
             type="primary"
+            size="small"
             @click="isChongx()"
           >
             确认冲销
@@ -803,10 +807,15 @@ export default {
           background-color: #09b09a;
           border: none;
         }
-
+        .el-button:nth-child(2) {
+          width: 80px;
+        }
         .el-input,
         .el-select {
           width: 2.889rem !important;
+        }
+        .marf {
+          margin-left: 25%;
         }
       }
     }
@@ -851,6 +860,7 @@ export default {
         }
 
         .el-button:nth-child(1) {
+          width: 80px;
           position: absolute;
           top: 15px;
           left: 0;

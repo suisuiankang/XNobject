@@ -1,8 +1,8 @@
 <template>
   <el-container>
     <el-main>
-      <div class="xtzd-top">
-        <div class="xtzd-wz">
+      <div class="sjd-top">
+        <div class="sjd-wz">
           <img
             src="../../static/images/Ticon.png"
             alt
@@ -14,6 +14,7 @@
             <el-breadcrumb-item>系统字典</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
+
         <el-form
           ref="mForm"
           class="mForm"
@@ -43,7 +44,6 @@
               :sm="{span:8,offset:0}"
             >
               <el-form-item
-
                 label="上级编码"
                 prop="upcode"
               >
@@ -86,20 +86,16 @@
               :sm="{span:8,offset:0}"
             >
               <el-form-item
-
                 label="字典状态"
-
                 prop="state"
               >
                 <el-select
                   v-model="muForm.state"
-
                   placeholder
                 >
                   <el-option
                     v-for="(item,i) in stateForm"
                     :key="i"
-
                     :label="item.text"
                     :value="item.value"
                   />
@@ -149,13 +145,14 @@
             </el-col>
             <el-col
               :xl="{span:6,offset:5}"
-              :lg="{span:6,offset:5}"
-              :md="{span:7,offset:2}"
+              :lg="{span:6,offset:0}"
+              :md="{span:7,offset:0}"
               :sm="{span:8,offset:0}"
             >
-              <el-form-item class="mfr">
+              <el-form-item class="yf">
                 <el-button
                   type="primary"
+                  size="small"
                   style="background-color: #09b09a;"
                   @click="queryForm(mForm)"
                 >
@@ -163,6 +160,7 @@
                 </el-button>
                 <el-button
                   type="primary"
+                  size="small"
                   style="background-color: #fff;color: #606266;border: 1px solid #dcdfe6;"
                   @click="restForm('mForm')"
                 >
@@ -174,37 +172,38 @@
           </el-row>
         </el-form>
       </div>
-      <div class="xtzd-bt">
-        <div class="xtzd-jg">
+      <div class="sjd-bt">
+        <div class="sjd-jg">
           <img
             src="../../static/images/bicon.png"
             alt
           >
           查询结果
         </div>
-        <div class="xtzd-xuanxian">
+        <div class="sjd-xuanxian">
           <el-button
             type="primary"
+            size="small"
             @click="newlyBuild = true"
           >
             新建
           </el-button>
           <el-button
             type="primary"
-
+            size="small"
             @click="setEdit() "
           >
             编辑
           </el-button>
           <el-button
             type="primary"
-
+            size="small"
             @click="deleteList()"
           >
             删除
           </el-button>
         </div>
-        <div class="xtzd-xj">
+        <div class="sjd-xj">
           <el-dialog
             title="表单填写"
             :visible.sync="newlyBuild"
@@ -214,6 +213,7 @@
           >
             <el-form
               ref="muForm"
+              :rules="rules"
               class="muForm"
               :model="muForm"
               size="mini"
@@ -250,7 +250,6 @@
                   </el-form-item>
                 </el-col>
               </el-row>
-
               <el-row>
                 <el-col
                   :xl="{span:20,offset:4}"
@@ -266,7 +265,6 @@
                   </el-form-item>
                 </el-col>
               </el-row>
-
               <el-row>
                 <el-col
                   :xl="{span:20,offset:4}"
@@ -315,7 +313,6 @@
                   </el-form-item>
                 </el-col>
               </el-row>
-
               <el-row>
                 <el-col
                   :xl="{span:20,offset:4}"
@@ -325,7 +322,6 @@
                 >
                   <el-form-item
                     label="字典年度:"
-
                     prop="year"
                   >
                     <el-input
@@ -641,6 +637,7 @@
 <script>
 export default {
   data () {
+    // 返回双向绑定的表单数据
     return {
       stateForm: {},
       muForm: {},
@@ -657,7 +654,36 @@ export default {
         remark: '',
         codeorder: ''
       },
-      tabgData: [
+      // 定义规则 form表单中的一些字段特殊的要求，比如不能为空，或者别的
+      rules: {
+        code: [
+          { required: true, message: '字典编码:值不能为空', trigger: 'change' }
+        ],
+        upcode: [
+          { required: true, message: '上级编码:值不能为空', trigger: 'change' }
+        ],
+        name: [
+          { required: true, message: '字典名称:值不能为空', trigger: 'change' }
+        ],
+        type: [
+          { required: true, message: '字典类型:值不能为空', trigger: 'change' }
+        ],
+        state: [
+          { required: true, message: '字典状态:值不能为空', trigger: 'change' }
+        ],
+        year: [
+          { required: true, message: '字典年度:值不能为空', trigger: 'change' }
+        ],
+        remark: [
+          { required: true, message: '备注:值不能为空', trigger: 'change' }
+        ],
+        codeorder: [
+          { required: true, message: '排序:值不能为空', trigger: 'change' }
+        ]
+
+      },
+
+      tabgData: [ // 从接口处获得数据返回到表格
         // {
         //   code: '',
         //   upcode: '',
@@ -670,9 +696,9 @@ export default {
         // }
       ],
 
-      isEdit: false,
+      isEdit: false, // 没事使用时关闭
       newlyBuild: false,
-      formLabelWidth: '140px',
+      formLabelWidth: '140px', // form 表单的宽度
       total: 0
     }
   },
@@ -685,13 +711,13 @@ export default {
     window.addEventListener('resize', function () {
       // eslint-disable-next-line no-irregular-whitespace
       return (() => {
-        that.fff()
+        that.fff() // 回调用fff这个方法
       })()
     })
     that.fff()
   },
   created () {
-    this.getXtzd()
+    this.getXtzd() // 刷新获取的数据
   },
   methods: {
     // 数据获取
@@ -702,9 +728,9 @@ export default {
         )
         .then(res => {
           console.log(res.data.resultValue)
-          this.stateForm = res.data.resultValue.dicts[0].values
-          this.total = res.data.resultValue.itemCount
-          this.tabgData = res.data.resultValue.items
+          this.stateForm = res.data.resultValue.dicts[0].values // 获取状态的字段
+          this.total = res.data.resultValue.itemCount // 获取总的页数
+          this.tabgData = res.data.resultValue.items // 获取表格的数据
         })
     },
     //  转换
@@ -720,8 +746,7 @@ export default {
     queryForm (mForm) {
       var arr = {}
       // eslint-disable-next-line eqeqeq
-      if (mForm.code != '') {
-        console.log(mForm.code)
+      if (mForm.code != '') { // 如果序号不为空的 arr集合获得序号字段
         arr = `code=${mForm.code}`
       }
       // eslint-disable-next-line eqeqeq
@@ -775,7 +800,7 @@ export default {
       }
       // 判断对象是否为空;
       // eslint-disable-next-line eqeqeq
-      if (JSON.stringify(arr) == '{}') {
+      if (JSON.stringify(arr) == '{}') { // 从接口处获得的数据，判断是否为空
         this.getXtzd()
       } else {
         arr = `"filter":"` + arr + `"`
@@ -800,32 +825,30 @@ export default {
       // eslint-disable-next-line no-irregular-whitespace
       _this.$nextTick(function () {
         // eslint-disable-next-line no-irregular-whitespace
-        _this.tableHeight = window.innerHeight - 401
+        _this.tableHeight = window.innerHeight - 401 // 获取表格的高度，屏幕的高度减去form表单的高度
         // eslint-disable-next-line no-irregular-whitespace
         let self = _this
         // eslint-disable-next-line no-irregular-whitespace
         window.onresize = function () {
           // eslint-disable-next-line no-irregular-whitespace
-          self.tableHeight = window.innerHeight - 401
+          self.tableHeight = window.innerHeight - 401 //  监听屏幕发生变化时的高度
         }
       })
     },
     //  新建保存
     xinjian (mForm) {
-      console.info(mForm)
       this.$ajax
-        .post('/tblsyscode/save?', {
+        .post('/tblsyscode/save?', { // 调用后台保存的方法
           items: [mForm]
         })
         .then(res => {
-          //   console.log(res.data);
           this.$message({
             message: '添加成功',
             type: 'success'
           })
           this.getXtzd()
         })
-        .catch(ref => {})
+        .catch(ref => {}) // 关闭新建
       this.newlyBuild = false
     },
     // 编辑
@@ -848,9 +871,8 @@ export default {
     },
     // 编辑保存
     saveForm (editForm) {
-      console.info(editForm)
       this.$ajax
-        .post('/tblsyscode/save?', {
+        .post('/tblsyscode/save?', { // 调用后台保存的方法
           items: [editForm]
         })
         .then(res => {
@@ -860,13 +882,13 @@ export default {
           })
           this.getXtzd()
         })
-        .catch(ref => {})
+        .catch(ref => {}) // 关闭编辑
       this.isEdit = false
     },
     // 删除
     deleteList () {
       // eslint-disable-next-line eqeqeq
-      if (this.multipleSelection.length == 0) {
+      if (this.multipleSelection.length == 0) { // 判断是否选中数据
         this.$message({
           message: '请至少选中一条待选中记录',
           type: 'warning'
@@ -878,8 +900,7 @@ export default {
           type: 'warning'
         })
           .then(() => {
-            this.delList = this.multipleSelection
-            console.log(this.delList[0].wid)
+            this.delList = this.multipleSelection // 删除已经选择的数据
             let wid = this.delList
             function widList (widLi) {
               let widStr = []
@@ -888,14 +909,12 @@ export default {
               }
               return widStr
             }
-            console.log(widList(wid))
             let wList = widList(wid)
             this.$ajax
-              .post('/tblsyscode/delete?', {
+              .post('/tblsyscode/delete?', { // 请求后台删除的方法
                 ids: wList
               })
-              .then(res => {
-                console.log(res.data)
+              .then(res => { //
                 this.getXtzd()
               })
               .catch(ref => {})
@@ -954,7 +973,7 @@ export default {
         })
       console.log(`当前页: ${val}`)
     },
-    indexMethod (index) {
+    indexMethod (index) { // 定义序号
       return index + 1
     }
 
@@ -977,11 +996,11 @@ export default {
   .el-main {
     padding: 10px;
     overflow-y: hidden;
-    .xtzd-top {
+    .sjd-top {
       padding: 10px;
       background-color: #fff;
 
-      .xtzd-wz {
+      .sjd-wz {
         position: relative;
         padding: 10px 10px 10px 30px;
         img {
@@ -999,25 +1018,32 @@ export default {
           background-color: #09b09a;
           border: none;
         }
-
+          /deep/ .el-button:nth-child(1) {
+         
+          width: 56px;
+        }
+         /deep/ .el-button:nth-child(2) {
+          
+          width: 80px;
+        }
         .el-input,
-
         .el-select {
           width: 2.889rem !important;
         }
-        /deep/.mfr {
+        /deep/.yf {
           float: right;
           .el-form-item__content {
             margin-left: 0!important;
           }
         }
+
       }
     }
-    .xtzd-bt {
+    .sjd-bt {
       margin-top: 10px;
       background-color: #fff;
       padding: 10px;
-      .xtzd-jg {
+      .sjd-jg {
         position: relative;
         padding: 6px 10px 0 30px;
         font-size: 18px;
@@ -1028,7 +1054,7 @@ export default {
           left: 0;
         }
       }
-      .xtzd-xuanxian {
+      .sjd-xuanxian {
         position: relative;
         box-sizing: border-box;
         width: 100%;
@@ -1042,24 +1068,25 @@ export default {
           position: absolute;
           top: 15px;
           left: 0;
+        
+          width: 56px;
         }
         .el-button:nth-child(2) {
           position: absolute;
           top: 15px;
-          left: 80px;
+          left: 70px;
+         
+          width: 56px;
         }
         .el-button:nth-child(3) {
           position: absolute;
           top: 15px;
-          left: 170px;
-        }
-        .el-button:nth-child(4) {
-          position: absolute;
-          top: 15px;
-          left: 290px;
+          left: 150px;
+          
+          width: 56px;
         }
       }
-      .xtzd-xj {
+      .sjd-xj {
        /deep/ .el-dialog {
           .el-dialog__header {
             padding: 0;

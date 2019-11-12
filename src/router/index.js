@@ -2,17 +2,24 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/home/home'
 import '../static/js/rem.js'
-import Shangjd from '../views/shangjd/shangjd'
-import Ysrk from '../views/lysrk/ysrk'
-import Ggrk from '../views/ggrk/ggrk'
+// 入库业务
+import Ggrk from '../views/RK_ggrk/ggrk'
+import Ysrk from '../views/RK_ysrk/ysrk'
+import Gwscrk from '../views/RK_gwscrk/gwscrk'
+import Tycz from '../views/RK_tyzc/tyzc'
+import Gcjy from '../views/RK_gcjy/gcjy'
+import Wzbf from '../views/RK_wzbf/wzbf'
+// 上架业务
+import Shangjd from '../views/SJ_sjd/shangjd'
 import Yscx from '../views/yscx/yscx'
 import Jjcx from '../views/jjcx/jjcx'
-import Tyczd from '../views/tyzcd/tyzcd'
 import Xlzd from '../views/xlzd/xtzd'
-import Gwscrk from '../views/gwscrk/gwscrk'
-import Gjwt from '../views/gjwt/gcjywztk'
 import Kchd from '../views/kc_check/kchd'
 import Ylfh from '../views/ylfh/ylfh'
+import Kcyk from '../views/kcyk/kcyk'
+import Jhd from '../views/XJ_jhd/jhd'
+// 转储业务
+import Zcyw from '../views/ZC_zcyw/zcyw'
 
 Vue.use(VueRouter)
 
@@ -47,9 +54,9 @@ const routes = [{
   component: Jjcx
 },
 {
-  path: '/tyczd',
-  name: 'tyczd',
-  component: Tyczd
+  path: '/tyzc',
+  name: 'tyzc',
+  component: Tycz
 },
 {
   path: '/xlzd',
@@ -62,9 +69,14 @@ const routes = [{
   component: Gwscrk
 },
 {
-  path: '/gjwt',
-  name: 'gjwt',
-  component: Gjwt
+  path: '/gcjy',
+  name: 'gcjy',
+  component: Gcjy
+},
+{
+  path: '/wzbf',
+  name: 'wzbf',
+  component: Wzbf
 },
 {
   path: '/kchd',
@@ -75,6 +87,21 @@ const routes = [{
   path: '/ylfh',
   name: 'ylfh',
   component: Ylfh
+},
+{
+  path: '/kcyk',
+  name: 'kcyk',
+  component: Kcyk
+},
+{
+  path: '/jhd',
+  name: 'jhd',
+  component: Jhd
+},
+{
+  path: '/zcyw',
+  name: 'zcyw',
+  component: Zcyw
 }
 ]
 

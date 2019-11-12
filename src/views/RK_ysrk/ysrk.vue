@@ -161,12 +161,14 @@
               <el-form-item class="yfr">
                 <el-button
                   type="primary"
+                  size="small"
                   @click="qureySform(yform)"
                 >
                   查询
                 </el-button>
                 <el-button
                   type="primary"
+                  size="small"
                   style="background-color: #fff;color: #606266;border: 1px solid #dcdfe6;"
                   @click="clearForm(),resetForm('yform')"
                 >
@@ -352,18 +354,21 @@
         <div class="ysrk-xuanxian">
           <el-button
             type="primary"
+            size="small"
             @click="isPreservation()"
           >
             保存
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="isJiaojie()"
           >
             确认交接
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="isBid()"
           >
             绑定实物ID
@@ -494,6 +499,7 @@
           >
             <el-button
               type="primary"
+              size="small"
               @click="preservationBd"
             >保存</el-button>
           </span>
@@ -1317,6 +1323,9 @@ export default {
         .el-select {
           width: 2.889rem !important;
         }
+        .el-button:nth-child(2) {
+          width: 80px;
+        }
         /deep/.yfr {
           float: right;
           .el-form-item__content {
@@ -1371,14 +1380,16 @@ export default {
           left: 0;
         }
         .el-button:nth-child(2) {
+          width: 80px;
           position: absolute;
           top: 15px;
-          left: 80px;
+          left: 70px;
         }
         .el-button:nth-child(3) {
+          width: 92px;
           position: absolute;
           top: 15px;
-          left: 200px;
+          left: 174px;
         }
       }
       .ysrk-xj {

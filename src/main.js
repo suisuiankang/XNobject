@@ -8,7 +8,6 @@ import 'element-ui/lib/theme-chalk/display.css'
 import axios from 'axios'
 // import '../src/static/js/rem'
 // eslint-disable-next-line no-unused-vars
-import $ from 'jquery'
 
 import onlyNumber from '../src/directive/el-input'
 import common from '../src/util/common'

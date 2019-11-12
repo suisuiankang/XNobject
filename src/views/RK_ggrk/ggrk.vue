@@ -14,6 +14,10 @@
             <el-breadcrumb-item>履约货物交接</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
+        <!-- <search-condition
+          :search-params="searchParams"
+          @params="getParams"
+        /> -->
         <el-form
           ref="gkform"
           class="gkform"
@@ -163,11 +167,13 @@
               >
                 <el-button
                   type="primary"
+                  size="small"
                   @click="qureySform(gkform)"
                 >
                   查询
                 </el-button>
                 <el-button
+                  size="small"
                   type="primary"
                   style="background-color: #fff;color: #606266;border: 1px solid #dcdfe6;"
                   @click="clearForm(),resetForm('gkform')"
@@ -353,6 +359,7 @@
         </div>
         <div class="ggrk-xuanxian">
           <el-button
+            size="small"
             type="primary"
             @click="isJiaojie()"
           >
@@ -360,6 +367,7 @@
           </el-button>
           <el-button
             type="primary"
+            size="small"
             @click="isBid()"
           >
             绑定实物ID
@@ -843,7 +851,11 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import SearchCondition from '@/components/SearchCondition/index.vue'
 export default {
+  // eslint-disable-next-line vue/no-unused-components
+  components: { SearchCondition },
   data () {
     return {
       cform: {
@@ -997,6 +1009,50 @@ export default {
         dumparea: '',
         remark: ''
       },
+      searchParams: {
+        list: [{
+          label: '开始时间',
+          value: '',
+          name: '21',
+          type: 'date'
+        }, {
+          label: '报废时间',
+          value: '',
+          name: '212',
+          type: 'date'
+        }, {
+          label: '物料小类',
+          value: '',
+          name: '221',
+          type: 'select',
+          options: [{
+            label: '变压器',
+            value: ''
+          } ]
+        }, {
+          label: '物料编码',
+          value: '',
+          name: '252',
+          type: 'select'
+        }, {
+          label: '物料描述',
+          value: '',
+          name: '226'
+        }, {
+          label: '单位名称',
+          value: '',
+          name: '227',
+          type: 'select'
+
+        }, {
+          label: '仓库名称',
+          value: '',
+          name: '227',
+          type: 'select'
+
+        }
+        ]
+      },
       iscord: false,
       dialogTableVisible: false,
       multipleSelectionr: [],
@@ -1008,6 +1064,7 @@ export default {
     }
   },
   created () {
+    this.getChaxun()
   },
   mounted () {
     const that = this
@@ -1019,6 +1076,27 @@ export default {
     that.fff()
   },
   methods: {
+    // 获取筛选条件
+    getParams (param) {
+      if (param) {
+        this.getList(param)
+      }
+    },
+    // 获取列表
+    getList (param) {
+      param = param || {}
+      let params = {
+        page: this.pager.pageNo,
+        limit: this.pager.limit
+      }
+      Object.assign(params, this.params)
+      // SupplyPlanCreateList(params).then(res => {
+      //   if (res.code === 0) {
+      //     this.tableData = res.data.rows;
+      //     this.pager.total = res.data.total;
+      //   }
+      // });
+    },
     // 实时获取高度
     fff () {
       let _this = this
@@ -1145,6 +1223,13 @@ export default {
       this.total = 0
       this.tableHeight = window.innerHeight - 401
     },
+    getChaxun () {
+      this.$ajax
+        .get('http://192.168.43.33:80/apis/tBasicKqcwxx/')
+        .then(res => {
+          console.log(res.data)
+        })
+    },
     handleSizeChange (val) {
       // this.$ajax
       //   .get(
@@ -1228,7 +1313,9 @@ export default {
           background-color: #09b09a;
           border: none;
         }
-
+        .el-button:nth-child(2) {
+          width: 80px;
+        }
         .el-input,
         .el-select {
           width: 2.889rem !important;
@@ -1283,14 +1370,16 @@ export default {
         }
 
         .el-button:nth-child(1) {
+          width: 80px;
           position: absolute;
           top: 15px;
           left: 0;
         }
         .el-button:nth-child(2) {
+          width: 92px;
           position: absolute;
           top: 15px;
-          left: 108px;
+          left: 94px;
         }
       }
       .gl_ID {
