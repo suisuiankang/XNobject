@@ -5,12 +5,14 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
+import './static/css/element-#09B09A/index.css'
 import axios from 'axios'
 // import '../src/static/js/rem'
 // eslint-disable-next-line no-unused-vars
 
 import onlyNumber from '../src/directive/el-input'
 import common from '../src/util/common'
+// import '../src/static/css/element-#09B09A/index'
 
 axios.defaults.timeout = 5000 // 请求超时
 axios.defaults.baseURL = '/api/' // api 即上面 vue.config.js 中配置的地址

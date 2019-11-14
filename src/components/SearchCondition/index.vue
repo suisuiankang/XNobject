@@ -4,8 +4,9 @@
       ref="searchForm"
       :model="searchForm"
     >
+      <!-- v-if="searchParams.list.length>4?true:false" -->
       <el-dropdown
-        v-if="searchParams.list.length>4?true:false"
+        v-if="searchParams.list"
         trigger="click"
         class="fr pointer searchDropdown"
         :style="elLink"
@@ -20,16 +21,17 @@
             />
           </el-button>
         </span>
-        <el-dropdown-menu slot="dropdown">
-          <div style="padding:10px 20px;width: 600px">
+        <el-dropdown-menu class="edm_right">
+          <div style="padding:10px 20px;width: 400px;position: relative;">
             <el-checkbox
               v-model="checkAll"
+              class="quanxuan"
               :indeterminate="isIndeterminate"
               @change="handleCheckAllChange"
             >
               全选
             </el-checkbox>
-            <div style="margin: 15px 0;border-bottom:1px solid #ccc" />
+            <div style="margin: 25px 0 6px;border-bottom:1px solid #ccc" />
             <el-checkbox-group
               v-model="checkedCities"
               class="elCheckBox"
@@ -88,6 +90,7 @@
                 v-model="search.value"
                 filterable
                 clearable
+                size="small"
                 :placeholder="search.placeholder?search.placeholder:'请选择'"
               >
                 <el-option
@@ -109,35 +112,42 @@
                 v-model="search.value"
                 align="right"
                 type="date"
+                size="small"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 :placeholder="search.placeholder?search.placeholder:'选择日期'"
                 :picker-options="pickerOptionsDate"
               />
-              <!-- <el-date-picker
-                  v-model="search.value"
-                  align="right"
-                  type="date"
-                  value-format="date"
-                  :placeholder="search.placeholder?search.placeholder:'选择日期'"
-                  :picker-options="pickerOptionsDate"
-                ></el-date-picker>-->
             </el-form-item>
           </div>
-          <div v-if="search.type&&search.type==='section'">
+          <div v-if="search.type&&search.type==='daterange'">
             <el-form-item
               :label="search.label+':'"
               :prop="'list.'+index+'.value'"
-              :rules="search.rules?search.rules:{}"
             >
               <el-date-picker
                 v-model.number="search.value"
                 type="daterange"
                 align="right"
                 unlink-panels
+                size="small"
                 range-separator="~"
                 :start-placeholder="search.startName?search.startName:'开始日期'"
                 :end-placeholder="search.endName?search.endName:'结束日期'"
                 :picker-options="pickerOptionsDateSection"
+              />
+            </el-form-item>
+          </div>
+          <div v-if="search.type&&search.type==='year'">
+            <el-form-item
+              :label="search.label+':'"
+              :prop="'list.'+index+'.value'"
+            >
+              <el-date-picker
+                v-model.number="search.value"
+                type="year"
+                size="small"
+                align="right"
+                :placeholder="search.placeholder?search.placeholder:'选择年份'"
               />
             </el-form-item>
           </div>
@@ -146,15 +156,21 @@
     </el-form>
     <div
       class="searchBtn"
-      style="text-align:right;padding-bottom:10px;"
+      style="text-align:right;margin: 10px 17px 0 0;"
     >
       <el-button
         type="primary"
-        @click="search"
+        size="small"
+        style=" background-color: #09b09a;"
+        @click="search(searchForm)"
       >
         查 询
       </el-button>
-      <el-button @click="resetForm">
+      <el-button
+        size="small"
+        style=" width: 80px;border: 1px solid #ccc;"
+        @click="resetForm"
+      >
         清除条件
       </el-button>
     </div>
@@ -166,14 +182,6 @@ export default {
   name: 'Index',
   // eslint-disable-next-line vue/require-prop-types
   props: ['searchParams'],
-  // props: ["searchParams", "MoreSearchParams"],
-  // watch: {
-  //   MoreSearchParams() {
-  //     if (!this.MoreSearchParams) {
-  //       return [];
-  //     }
-  //   }
-  // },
   data () {
     return {
       checkedCities: [],
@@ -289,7 +297,7 @@ export default {
   },
   created () {
     // this.searchForm = this.$copy(this.searchParams);
-    this.searchForm = this.$copy(this.searchParams)
+    // this.searchForm = this.$copy(this.searchParams)
   },
   methods: {
     handleCheckAllChange (val) {
@@ -335,7 +343,7 @@ export default {
         }
       })
     },
-    search () {
+    search (searchForm) {
       this.$refs['searchForm'].validate(valid => {
         if (valid) {
           let params = {}
@@ -345,8 +353,10 @@ export default {
           this.$emit('params', params)
         } else {
           this.$emit('params', false)
+          // console.info(this.$emit('params', false))
         }
       })
+      // console.info(this.params)
     },
     resetForm () {
       this.$refs['searchForm'].resetFields()
@@ -355,50 +365,60 @@ export default {
   }
 }
 </script>
-  <style lang="less">
+<style lang="less">
+
   .search-condition {
+    padding: 20px 0 0;
     position: relative;
     .el-form-item__content {
       display: flex;
       & > div:last-child {
         flex: 1;
+
       }
     }
   }
-  </style>
-  <style scoped lang="less">
-  .show-hidden-columns {
-    display: inline-block;
-    vertical-align: middle;
-    .elCheckBox {
-      display: flex;
-      flex-wrap: wrap;
-    }
+</style>
+<style scoped lang="less">
+  .el-button {
+    width: 56px;
+    height: 32px;
+    line-height: 1px;
+    text-align: center;
+    border: none;
   }
+  // .show-hidden-columns {
+  //   display: inline-block;
+  //   vertical-align: middle;
+  //   .elCheckBox {
+  //     display: flex;
+  //     flex-wrap: wrap;
+  //   }
+  // }
   .searchDropdown {
     position: absolute;
-    right: 20px;
-    top: -38px;
+    right: 70px;
+    top: -25px;
     margin-left: 10px;
     .el-button {
-      color: #09b09a;
       border: none;
       font-size: 14px;
+    }
+    .el-button:focus, .el-button:hover {
+      border-color: #fff;
+      background-color: #fff;
     }
   }
   .search-condition {
     // padding: 20px;
     font-size: 13px;
     color: #9c9c9c;
-
     .el-select {
       .el-input {
         width: 100%;
       }
     }
-
     // padding: 5px 0;
-
     .el-col {
       vertical-align: middle;
       height: 32px;
@@ -421,4 +441,19 @@ export default {
       }
     }
   }
-  </style>
+  .searchBtn {
+    .el-button:focus, .el-button:hover {
+      border-color: #fff;
+      background-color: #fff;
+    }
+  }
+  .edm_right {
+    height: 120px;
+
+    .quanxuan {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+    }
+  }
+</style>
